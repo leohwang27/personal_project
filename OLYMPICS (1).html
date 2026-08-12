@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Olympics. Every Games, mapped by host city</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2264%22%20height=%2264%22%20viewBox=%220%200%2064%2064%22>%0A%20%20<rect%20width=%2264%22%20height=%2264%22%20rx=%2211%22%20fill=%22%23FFFFFF%22/>%0A%20%20<g%20fill=%22none%22%20stroke-width=%224%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20transform=%22translate%286%2C16%29%22>%0A%20%20%20%20<circle%20cx=%2210%22%20cy=%2210%22%20r=%228%22%20stroke=%22%230085C7%22/>%0A%20%20%20%20<circle%20cx=%2226%22%20cy=%2210%22%20r=%228%22%20stroke=%22%23000000%22/>%0A%20%20%20%20<circle%20cx=%2242%22%20cy=%2210%22%20r=%228%22%20stroke=%22%23DF0024%22/>%0A%20%20%20%20<circle%20cx=%2218%22%20cy=%2222%22%20r=%228%22%20stroke=%22%23F4C300%22/>%0A%20%20%20%20<circle%20cx=%2234%22%20cy=%2222%22%20r=%228%22%20stroke=%22%23009F3D%22/>%0A%20%20%20%20<path%20d=%22M17.5%2012.7%20A8%208%200%200%201%2013.2%2017.3%22%20stroke=%22%230085C7%22/>%0A%20%20%20%20<path%20d=%22M33.5%2012.7%20A8%208%200%200%201%2029.2%2017.3%22%20stroke=%22%23000000%22/>%0A%20%20</g>%0A</svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2264%22%20height=%2264%22%20viewBox=%220%200%2064%2064%22>%0A%20%20<rect%20width=%2264%22%20height=%2264%22%20rx=%2211%22%20fill=%22%23FFFFFF%22/>%0A%20%20<g%20fill=%22none%22%20stroke-width=%224%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20transform=%22translate%286%2C16%29%22>%0A%20%20%20%20<circle%20cx=%2210%22%20cy=%2210%22%20r=%228%22%20stroke=%22%230085C7%22/>%0A%20%20%20%20<circle%20cx=%2226%22%20cy=%2210%22%20r=%228%22%20stroke=%22%23000000%22/>%0A%20%20%20%20<circle%20cx=%2242%22%20cy=%2210%22%20r=%228%22%20stroke=%22%23DF0024%22/>%0A%20%20%20%20<circle%20cx=%2218%22%20cy=%2222%22%20r=%228%22%20stroke=%22%23F4C300%22/>%0A%20%20%20%20<circle%20cx=%2234%22%20cy=%2222%22%20r=%228%22%20stroke=%22%23009F3D%22/>%0A%20%20%20%20<path%20d=%22M17.5%2012.7%20A8%208%200%200%201%2013.2%2017.3%22%20stroke=%22%230085C7%22/>%0A%20%20%20%20<path%20d=%22M33.5%2012.7%20A8%208%200%200%201%2029.2%2017.3%22%20stroke=%22%23000000%22/>%0A%20%20</g>%0A</svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Inter:wght@300..700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* ink */
+  --ink:#05070E;
+  --ink-2:#0A0E1A;
+  --glass:rgba(11,16,28,.78);
+  --line:rgba(150,170,210,.16);
+  --line-hot:rgba(255,122,60,.45);
+  --text:#E8EDF7;
+  --text-2:#98A3BA;
+  --text-3:#5C687F;
+  /* five rings, used as continent encoding */
+  --ring-blue:#2F6BD8;
+  --ring-yellow:#F2C14E;
+  --ring-black:#5B6478;
+  --ring-green:#2FA36B;
+  --ring-red:#E0453C;
+  /* flame + metals */
+  --flame:#FF6A2B;
+  --gold:#F0C25A;
+  --silver:#C3CCDA;
+  --bronze:#C4794A;
+  --shadow:0 24px 60px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;background:var(--ink);color:var(--text);
+  font-family:Inter,system-ui,sans-serif;font-size:13px;line-height:1.5;
+  overflow:hidden;-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.display{
+  font-family:Archivo,Inter,sans-serif;font-variation-settings:'wdth' 112,'wght' 800;
+  text-transform:uppercase;letter-spacing:.01em;margin:0;
+}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+button{font-family:inherit;color:inherit;background:none;border:none;cursor:pointer}
+::selection{background:var(--flame);color:#0A0E1A}
+:focus-visible{outline:2px solid var(--flame);outline-offset:2px;border-radius:4px}
+
+#globe{position:fixed;inset:0}
+#globe canvas{outline:none}
+.vignette{position:fixed;inset:0;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 45%,transparent 40%,rgba(3,5,10,.75) 100%)}
+
+/* ---------- panels ---------- */
+.panel{
+  background:var(--glass);border:1px solid var(--line);border-radius:14px;
+  backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);
+  box-shadow:var(--shadow);
+}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--text-3);
+}
+
+/* ---------- masthead ---------- */
+#masthead{position:fixed;top:20px;left:22px;z-index:6;width:min(520px,calc(100vw - 44px));pointer-events:none}
+#masthead .brandline{display:flex;align-items:center;gap:15px;min-height:48px;max-width:100%}
+#masthead .rings{display:block;width:86px;height:auto;flex:none;margin:0}
+#masthead .eyebrow{max-width:310px;line-height:1.55}
+#masthead .wordmark{font-size:36px;line-height:.86;margin-top:10px;font-variation-settings:'wdth' 112,'wght' 900}
+#masthead .wordmark i{font-style:normal;color:var(--flame)}
+#masthead p{margin:9px 0 0;color:var(--text-2);font-size:11.5px;max-width:470px;line-height:1.55}
+
+/* ---------- countdown ---------- */
+#countdown{position:fixed;top:20px;right:22px;z-index:8;margin:0;display:flex;flex-direction:column;align-items:flex-end;gap:3px;max-width:230px;text-align:right;pointer-events:none}
+#countdown .big{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:var(--flame);line-height:1.1;white-space:nowrap}
+#countdown .sub{color:var(--text-3);font-size:9.5px;letter-spacing:.06em;white-space:nowrap}
+
+/* ---------- left rail ---------- */
+#rail{position:fixed;left:22px;top:var(--rail-content-top,178px);bottom:110px;width:300px;z-index:5;
+  display:flex;flex-direction:column;gap:12px;overflow-y:auto;overscroll-behavior:contain;padding-right:4px}
+#rail::-webkit-scrollbar{width:5px}
+#rail::-webkit-scrollbar-thumb{background:rgba(140,160,200,.25);border-radius:9px}
+#rail.hidden{transform:translateX(-360px);opacity:0;pointer-events:none}
+#rail,#detail{transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .35s}
+.block{padding:14px}
+.block h3{font-size:11px;font-variation-settings:'wdth' 100,'wght' 700;letter-spacing:.14em;color:var(--text-2)}
+.block .hint{color:var(--text-3);font-size:10.5px;margin:8px 0 0}
+
+.seg{display:flex;gap:4px;margin-top:10px;background:rgba(255,255,255,.04);padding:3px;border-radius:9px}
+.seg button{flex:1;padding:7px 4px;border-radius:7px;font-size:11px;font-weight:500;color:var(--text-2)}
+.seg button[aria-pressed="true"]{background:var(--flame);color:#0A0E1A;font-weight:600}
+
+input[type=search]{
+  width:100%;margin-top:10px;padding:9px 11px;border-radius:9px;font-size:12px;
+  background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--text);
+}
+input[type=search]::placeholder{color:var(--text-3)}
+
+#results{margin-top:8px;max-height:210px;overflow-y:auto}
+#results::-webkit-scrollbar{width:5px}
+#results::-webkit-scrollbar-thumb{background:rgba(140,160,200,.25);border-radius:9px}
+.res{display:flex;align-items:center;gap:9px;width:100%;padding:7px 8px;border-radius:8px;text-align:left}
+.res:hover{background:rgba(255,255,255,.06)}
+.res .yr{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--flame);width:34px}
+.res .ct{font-size:12px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.res .sn{font-size:9px;letter-spacing:.1em;color:var(--text-3)}
+
+/* host ranking */
+.rank{display:flex;align-items:center;gap:9px;width:100%;padding:6px 6px;border-radius:8px;text-align:left}
+.rank:hover{background:rgba(255,255,255,.06)}
+.rank .n{width:16px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-3)}
+.rank .nm{flex:1;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank .bar{height:3px;border-radius:3px;background:var(--ring-blue);opacity:.75}
+.rank .ct{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-2);width:16px;text-align:right}
+
+.legend{display:flex;flex-direction:column;gap:6px;margin-top:11px}
+.legend div{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-2)}
+.dot{width:9px;height:9px;border-radius:50%;flex:none}
+
+.toggle{display:flex;align-items:center;justify-content:space-between;padding:7px 0;font-size:11.5px;color:var(--text-2)}
+.switch{width:34px;height:19px;border-radius:20px;background:rgba(255,255,255,.12);position:relative;flex:none;transition:background .2s}
+.switch::after{content:'';position:absolute;top:2.5px;left:2.5px;width:14px;height:14px;border-radius:50%;background:var(--text-2);transition:transform .2s,background .2s}
+.switch[aria-pressed="true"]{background:rgba(255,106,43,.35)}
+.switch[aria-pressed="true"]::after{transform:translateX(15px);background:var(--flame)}
+
+#railToggle{position:fixed;left:334px;top:52%;z-index:6;width:26px;height:44px;border-radius:8px;
+  background:var(--glass);border:1px solid var(--line);color:var(--text-2);display:grid;place-items:center;
+  backdrop-filter:blur(12px);transition:left .45s cubic-bezier(.22,1,.36,1)}
+#railToggle.tucked{left:16px}
+
+/* right-side pull handle stays available after the detail panel is closed */
+#detailToggle{position:fixed;right:0;top:52%;z-index:7;width:28px;height:48px;border-radius:9px 0 0 9px;
+  background:var(--glass);border:1px solid var(--line);border-right:none;color:var(--text-2);display:grid;place-items:center;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:var(--shadow);
+  transform:translateX(110%);opacity:0;pointer-events:none;
+  transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .25s,color .2s}
+#detailToggle:hover{color:var(--text);background:rgba(16,22,38,.92)}
+#detailToggle.show{transform:translateX(0);opacity:1;pointer-events:auto}
+
+/* ---------- detail panel ---------- */
+#detail{position:fixed;right:22px;top:var(--detail-content-top,128px);bottom:110px;width:min(480px,36vw);z-index:5;
+  display:flex;flex-direction:column;overflow:hidden;
+  transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .35s,width .4s cubic-bezier(.22,1,.36,1)}
+#detail.hidden{transform:translateX(760px);opacity:0;pointer-events:none}
+#detail.wide{width:min(1180px,calc(100vw - 380px))}
+#detail.wide .dbody{display:grid;grid-template-columns:1fr 1fr;column-gap:30px;align-content:start}
+#detail.wide .dbody>.chips,#detail.wide .dbody>.notice,#detail.wide .dbody>.empty,
+#detail.wide .dbody>table,#detail.wide .dbody>.reclist{grid-column:1/-1}
+#detail.wide .dbody>.reclist{display:grid;grid-template-columns:1fr 1fr;column-gap:30px}
+#detail.wide .dbody>.event:nth-child(2),#detail.wide .dbody>.event:nth-child(3){border-top:none}
+.dhead{padding:18px 20px 14px;border-bottom:1px solid var(--line);position:relative;flex:none}
+.dtopline{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-right:66px;min-height:42px}
+.dhead .season-tag{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;
+  font-size:9px;letter-spacing:.2em;padding:3px 8px;border-radius:20px;border:1px solid var(--line);min-width:0}
+.dbrand{flex:none;width:92px;height:40px;padding:5px 7px;border-radius:9px;background:rgba(255,255,255,.96);
+  display:grid;place-items:center;border:1px solid rgba(255,255,255,.16);box-shadow:0 7px 18px rgba(0,0,0,.18)}
+.dbrand svg,.dbrand img{display:block;width:100%;height:auto;max-width:100%;max-height:100%}
+.dbrand.flag{width:88px;height:64px;padding:0;background:none;border:none;box-shadow:none}
+.dbrand.flag span{display:grid;place-items:center;width:100%;height:100%;font-size:34px;line-height:1}
+.dhead h2{font-size:32px;line-height:1;margin-top:9px;font-variation-settings:'wdth' 108,'wght' 800}
+.dhead .where{color:var(--text-2);font-size:11.5px;margin-top:6px}
+.hbtns{position:absolute;top:15px;right:16px;display:flex;gap:4px}
+.hbtn{width:26px;height:26px;border-radius:7px;color:var(--text-3);font-size:14px;line-height:1;
+  display:grid;place-items:center;border:1px solid transparent}
+.hbtn:hover{background:rgba(255,255,255,.07);color:var(--text)}
+.hbtn.on{color:var(--flame);border-color:var(--line-hot)}
+.hbtn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);flex:none}
+.tile{background:var(--ink-2);padding:11px 13px}
+.tile .v{font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:600}
+.tile .k{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);margin-top:2px}
+
+.tabs{display:flex;gap:2px;padding:12px 20px 0;flex:none}
+.tabs button{padding:8px 14px;font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+  font-family:'JetBrains Mono',monospace;color:var(--text-3);border-bottom:2px solid transparent}
+.tabs button[aria-selected="true"]{color:var(--text);border-bottom-color:var(--flame)}
+
+.dbody{flex:1;overflow-y:auto;padding:16px 20px 22px}
+.dbody::-webkit-scrollbar{width:6px}
+.dbody::-webkit-scrollbar-thumb{background:rgba(140,160,200,.25);border-radius:9px}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.chip{padding:6px 12px;border-radius:20px;border:1px solid var(--line);font-size:11.5px;color:var(--text-2)}
+.chip:hover{border-color:var(--line-hot);color:var(--text)}
+.chip[aria-pressed="true"]{background:var(--flame);border-color:var(--flame);color:#0A0E1A;font-weight:600}
+
+.event{border-top:1px solid var(--line);padding:13px 0}
+.event:first-child{border-top:none;padding-top:2px}
+.event .en{font-family:Archivo,sans-serif;font-variation-settings:'wdth' 100,'wght' 700;
+  text-transform:uppercase;font-size:13px;letter-spacing:.02em}
+.event .note{color:var(--text-3);font-size:10.5px;margin-top:3px;font-style:italic}
+.event .event-note{min-height:1.55em;line-height:1.55}
+.event .event-note.empty-note{visibility:hidden}
+.podium{margin-top:9px;display:flex;flex-direction:column;gap:5px}
+.slot{display:grid;grid-template-columns:16px 1fr auto;gap:10px;align-items:center;padding:6px 9px;border-radius:8px;
+  background:rgba(255,255,255,.03)}
+.slot .m{width:9px;height:9px;border-radius:50%;justify-self:center}
+.slot.g{background:linear-gradient(90deg,rgba(240,194,90,.16),rgba(240,194,90,.02))}
+.slot.g .m{background:var(--gold);box-shadow:0 0 10px rgba(240,194,90,.6)}
+.slot.s .m{background:var(--silver)}
+.slot.b .m{background:var(--bronze)}
+.slot .who{font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.slot .who span{color:var(--text-3);font-size:10.5px;margin-left:7px;letter-spacing:.06em}
+.slot .mark{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-2)}
+.slot.g .mark{color:var(--gold)}
+
+/* medal table */
+.mt{width:100%;border-collapse:collapse}
+.mt th{text-align:left;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--text-3);padding:0 6px 8px;font-weight:400}
+.mt td{padding:7px 6px;border-top:1px solid var(--line);font-size:12px}
+.mt td.num{font-family:'JetBrains Mono',monospace;text-align:right;width:38px}
+.mt tr.host td{color:var(--flame)}
+.mtbar{height:4px;border-radius:4px;display:flex;overflow:hidden;background:rgba(255,255,255,.05);min-width:70px}
+.mtbar i{display:block;height:100%}
+
+/* records */
+.rec{display:grid;grid-template-columns:1fr auto;gap:12px;padding:9px 0;border-top:1px solid var(--line);align-items:baseline}
+.rec:first-of-type{border-top:none}
+.rec .ev{font-size:12px}
+.rec .holder{color:var(--text-2);font-size:10.5px;margin-top:2px}
+.rec .mk{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--flame);text-align:right}
+.rec .dt{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--text-3);text-align:right;margin-top:2px}
+.rec.fresh .mk{color:var(--gold)}
+.olyflag{display:inline-block;font-size:9px;letter-spacing:.14em;color:var(--text-3);
+  border:1px solid var(--line);border-radius:20px;padding:1px 6px;margin-left:7px;vertical-align:1px}
+.notice{color:var(--text-2);font-size:12px;line-height:1.65;border-left:2px solid var(--flame);padding-left:13px}
+.empty{color:var(--text-3);font-size:12px;padding:18px 0}
+
+/* ---------- timeline ---------- */
+#timeline{position:fixed;left:0;right:0;bottom:0;height:92px;z-index:6;
+  background:linear-gradient(to top,rgba(4,6,12,.96),rgba(4,6,12,.72) 60%,transparent);
+  display:flex;align-items:center;gap:16px;padding:0 26px 6px}
+#play{width:38px;height:38px;border-radius:50%;border:1px solid var(--line-hot);color:var(--flame);
+  display:grid;place-items:center;flex:none;background:rgba(255,106,43,.08)}
+#play:hover{background:rgba(255,106,43,.2)}
+#track{position:relative;flex:1;height:54px;cursor:pointer}
+.lane{position:absolute;left:0;right:0;top:26px;height:1px;background:var(--line)}
+.lane.two{top:34px;opacity:.5}
+.tick{position:absolute;transform:translateX(-50%);}
+.tick .stem{width:2px;border-radius:2px;transition:height .2s,background .2s}
+.tick.summer .stem{background:rgba(255,106,43,.5)}
+.tick.winter .stem{background:rgba(110,170,255,.5)}
+.tick.cancel .stem{background:rgba(224,69,60,.5)}
+.tick.future .stem{background:rgba(150,170,210,.35)}
+.tick.on .stem{background:var(--text)!important;box-shadow:0 0 12px rgba(255,255,255,.6)}
+.tick:hover .stem{background:var(--text)!important}
+.decade{position:absolute;top:40px;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;
+  font-size:9px;color:var(--text-3);letter-spacing:.08em}
+#yearOut{font-family:Archivo,sans-serif;font-variation-settings:'wdth' 115,'wght' 900;font-size:34px;
+  line-height:.9;min-width:112px;text-align:right;flex:none}
+#yearOut small{display:block;font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:400;
+  letter-spacing:.2em;color:var(--text-3);margin-top:4px}
+#tip{position:fixed;z-index:9;pointer-events:none;opacity:0;transition:opacity .12s;padding:7px 10px;
+  font-size:11px;white-space:nowrap;transform:translate(-50%,-120%)}
+#tip b{font-weight:600}
+
+#loading{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:var(--ink);
+  transition:opacity .7s;text-align:center}
+#loading.done{opacity:0;pointer-events:none}
+#loading .lr{animation:pulse 1.6s ease-in-out infinite;transform-origin:center}
+@keyframes pulse{0%,100%{opacity:.25;transform:scale(.94)}50%{opacity:1;transform:scale(1)}}
+#loading p{color:var(--text-3);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  font-family:'JetBrains Mono',monospace}
+
+@media (max-width:1100px){
+  #detail{width:min(440px,44vw)}
+  #rail{width:260px}
+  #railToggle{left:294px}
+}
+@media (max-width:820px){
+  #masthead{top:18px;left:20px;width:calc(100vw - 40px);padding-right:170px}
+  #masthead .brandline{gap:11px;min-height:36px}
+  #masthead .rings{width:64px}
+  #masthead .eyebrow{font-size:8.5px;letter-spacing:.17em;max-width:230px;line-height:1.45}
+  #masthead .wordmark{font-size:32px;margin-top:9px}
+  #masthead p{max-width:min(480px,calc(100vw - 40px));font-size:11px;line-height:1.45;margin-top:8px}
+  #countdown{top:18px;right:20px;max-width:155px}
+  #countdown .big{font-size:12px}
+  #countdown .sub{font-size:8.5px}
+  /* Both side sheets start below the measured masthead instead of sitting underneath it. */
+  #rail{top:var(--mobile-content-top,175px);bottom:100px;width:calc(100% - 44px);max-width:340px}
+  #detail,#detail.wide{left:12px;right:12px;width:auto;top:var(--mobile-content-top,175px);bottom:100px;height:auto}
+  #detail.wide .dbody,#detail.wide .dbody>.reclist{display:block}
+  #dWide{display:none}
+  /* Keep the left pull handle usable on small screens too. */
+  #railToggle{display:grid;left:calc(100% - 38px)}
+  #railToggle.tucked{left:8px}
+  #detailToggle{top:52%}
+  .tiles{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:620px){
+  #masthead{padding-right:135px}
+  #masthead .rings{width:56px}
+  #masthead .eyebrow{font-size:7.8px;letter-spacing:.13em;max-width:190px}
+  #masthead .wordmark{font-size:29px}
+  #masthead p{font-size:10.5px;max-width:430px}
+  #countdown{right:14px;max-width:128px}
+  #countdown .big{font-size:10.5px}
+  #countdown .sub{font-size:7.8px;white-space:normal;line-height:1.25}
+}
+@media (max-width:820px) and (max-height:560px){
+  #masthead{top:12px}
+  #masthead .brandline{min-height:30px}
+  #masthead .rings{width:50px}
+  #masthead .wordmark{font-size:27px;margin-top:6px}
+  #masthead p{font-size:10px;line-height:1.35;max-width:440px;margin-top:6px}
+  #countdown{top:12px}
+}
+@media (max-width:460px){
+  #masthead{padding-right:112px}
+  #masthead .rings{width:48px}
+  #masthead .eyebrow{font-size:7px;max-width:145px}
+  #masthead .wordmark{font-size:25px}
+  #masthead p{font-size:9.5px}
+  #countdown{right:10px;max-width:105px}
+  #countdown .big{font-size:9.5px}
+  #countdown .sub{display:none}
+}
+@media (max-width:560px){
+  .dtopline{gap:8px;padding-right:60px}
+  .dbrand{width:76px;height:34px;padding:4px 6px}
+  .dhead .season-tag{font-size:8.2px;letter-spacing:.14em}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important}
+}
+</style>
+</head>
+<body>
+
+<div id="loading">
+  <div>
+    <svg viewBox="0 0 100 48" style="width:132px;margin-bottom:18px" aria-hidden="true">
+      <g fill="none" stroke-width="4">
+        <circle cx="15" cy="15" r="13" stroke="#2F6BD8" class="lr" style="animation-delay:0s"/>
+        <circle cx="43" cy="15" r="13" stroke="#E9EDF7" class="lr" style="animation-delay:.12s"/>
+        <circle cx="71" cy="15" r="13" stroke="#E0453C" class="lr" style="animation-delay:.24s"/>
+        <circle cx="29" cy="29" r="13" stroke="#F2C14E" class="lr" style="animation-delay:.36s"/>
+        <circle cx="57" cy="29" r="13" stroke="#2FA36B" class="lr" style="animation-delay:.48s"/>
+      </g>
+    </svg>
+    <p id="loadMsg">Assembling the host cities</p>
+  </div>
+</div>
+
+<div id="globe"></div>
+<div class="vignette"></div>
+
+<header id="masthead">
+  <div class="brandline">
+    <svg class="rings" viewBox="0 0 100 48" aria-label="Olympic rings" role="img">
+      <g fill="none" stroke-width="4">
+        <circle cx="15" cy="15" r="13" stroke="#2F6BD8"/>
+        <circle cx="43" cy="15" r="13" stroke="#E9EDF7"/>
+        <circle cx="71" cy="15" r="13" stroke="#E0453C"/>
+        <circle cx="29" cy="29" r="13" stroke="#F2C14E"/>
+        <circle cx="57" cy="29" r="13" stroke="#2FA36B"/>
+        <path d="M27.2 19.4 A13 13 0 0 1 20.4 26.9" stroke="#2F6BD8"/>
+        <path d="M55.2 19.4 A13 13 0 0 1 48.4 26.9" stroke="#E9EDF7"/>
+      </g>
+    </svg>
+    <div class="eyebrow">Olympic host cities, 1896 to 2034</div>
+  </div>
+  <div class="wordmark display">OLYMPICS<i>.</i></div>
+  <p>Every Games since Athens, placed where it happened. Open one to walk through the sports, the podiums and the records.</p>
+</header>
+<div id="countdown">
+  <span class="big mono" id="cdVal">0</span>
+  <span class="sub mono" id="cdSub">until Los Angeles 2028</span>
+</div>
+
+<button id="railToggle" aria-label="Hide controls" title="Hide controls">&#8249;</button>
+<button id="detailToggle" class="show" aria-label="Show the last Games details" title="Show details">&#8249;</button>
+
+<aside id="rail">
+  <section class="block panel">
+    <h3>Season</h3>
+    <div class="seg" id="seasonSeg">
+      <button data-season="ALL" aria-pressed="true">All</button>
+      <button data-season="S" aria-pressed="false">Summer</button>
+      <button data-season="W" aria-pressed="false">Winter</button>
+    </div>
+    <p class="hint">Colour on the globe follows the five rings: each host country is tinted by its continent.</p>
+    <div class="legend">
+      <div><i class="dot" style="background:var(--ring-blue)"></i>Europe</div>
+      <div><i class="dot" style="background:var(--ring-yellow)"></i>Asia</div>
+      <div><i class="dot" style="background:var(--ring-black)"></i>Africa</div>
+      <div><i class="dot" style="background:var(--ring-green)"></i>Oceania</div>
+      <div><i class="dot" style="background:var(--ring-red)"></i>Americas</div>
+    </div>
+  </section>
+
+  <section class="block panel">
+    <h3>Find a Games</h3>
+    <input type="search" id="search" placeholder="City, country or year" autocomplete="off" />
+    <div id="results"></div>
+  </section>
+
+  <section class="block panel">
+    <h3>Most Games hosted</h3>
+    <div id="hostRank" style="margin-top:10px"></div>
+  </section>
+
+  <section class="block panel">
+    <h3>Globe</h3>
+    <button class="toggle" id="tRelay" aria-pressed="true">Torch relay arcs<i class="switch" aria-pressed="true"></i></button>
+    <button class="toggle" id="tSpin" aria-pressed="true">Auto rotate<i class="switch" aria-pressed="true"></i></button>
+    <p class="hint">Arcs link each Games to the next one in order, summer and winter woven together.</p>
+  </section>
+</aside>
+
+<section id="detail" class="panel hidden" aria-live="polite">
+  <div class="dhead">
+    <div class="dtopline">
+      <span class="season-tag mono" id="dTag"></span>
+      <div class="dbrand" id="dBrand" aria-label="Games logo" title="Games logo"></div>
+    </div>
+    <h2 id="dCity"></h2>
+    <div class="where" id="dWhere"></div>
+    <div class="hbtns">
+      <button class="hbtn" id="dWide" aria-pressed="false" aria-label="Expand the panel" title="Expand">
+        <svg viewBox="0 0 24 24"><path d="M9 3H3v6M3 3l7 7M15 21h6v-6M21 21l-7-7"/></svg>
+      </button>
+      <button class="hbtn" id="dClose" aria-label="Close the panel" title="Close">&#10005;</button>
+    </div>
+  </div>
+  <div class="tiles" id="dTiles"></div>
+  <div class="tabs" role="tablist">
+    <button data-tab="sports" role="tab" aria-selected="true">Sports</button>
+    <button data-tab="medals" role="tab" aria-selected="false">Medal table</button>
+    <button data-tab="records" role="tab" aria-selected="false">World records</button>
+  </div>
+  <div class="dbody" id="dBody"></div>
+</section>
+
+<div id="timeline">
+  <button id="play" aria-label="Play through the Games">&#9654;</button>
+  <div id="track">
+    <div class="lane"></div><div class="lane two"></div>
+  </div>
+  <div id="yearOut" class="display">1896<small id="yearSub">ATHENS</small></div>
+</div>
+
+<div id="tip" class="panel"></div>
+<script>
+/* ============================================================
+   HOST. data layer
+   Games, medal tables, event podiums and world records.
+   Figures follow the official IOC and Wikipedia summaries.
+   Some totals shift over time as medals are reallocated.
+   ============================================================ */
+
+const CONTINENT = {
+  Europe:'#2F6BD8', Asia:'#F2C14E', Africa:'#5B6478', Oceania:'#2FA36B', Americas:'#E0453C'
+};
+
+/* IOC code to flag emoji */
+const FLAG = {USA:'🇺🇸',CHN:'🇨🇳',JPN:'🇯🇵',AUS:'🇦🇺',FRA:'🇫🇷',GBR:'🇬🇧',KOR:'🇰🇷',ITA:'🇮🇹',GER:'🇩🇪',NED:'🇳🇱',
+CAN:'🇨🇦',BRA:'🇧🇷',JAM:'🇯🇲',KEN:'🇰🇪',ETH:'🇪🇹',NOR:'🇳🇴',SWE:'🇸🇪',SUI:'🇨🇭',AUT:'🇦🇹',FIN:'🇫🇮',ESP:'🇪🇸',
+RUS:'🇷🇺',URS:'☭',EUN:'☭',ROC:'🇷🇺',OAR:'🇷🇺',GDR:'🇩🇩',FRG:'🇩🇪',TCH:'🇨🇿',CZE:'🇨🇿',YUG:'🇷🇸',SRB:'🇷🇸',
+GRE:'🇬🇷',HUN:'🇭🇺',POL:'🇵🇱',ROU:'🇷🇴',BUL:'🇧🇬',CUB:'🇨🇺',MEX:'🇲🇽',ARG:'🇦🇷',BEL:'🇧🇪',DEN:'🇩🇰',
+NZL:'🇳🇿',RSA:'🇿🇦',UGA:'🇺🇬',BOT:'🇧🇼',MAR:'🇲🇦',NGR:'🇳🇬',BAH:'🇧🇸',LCA:'🇱🇨',TTO:'🇹🇹',TRI:'🇹🇹',
+UKR:'🇺🇦',BLR:'🇧🇾',SVK:'🇸🇰',SLO:'🇸🇮',CRO:'🇭🇷',POR:'🇵🇹',IRL:'🇮🇪',TUR:'🇹🇷',IND:'🇮🇳',IRI:'🇮🇷',
+QAT:'🇶🇦',SGP:'🇸🇬',VEN:'🇻🇪',COL:'🇨🇴',LTU:'🇱🇹',EST:'🇪🇪',LAT:'🇱🇻',KAZ:'🇰🇿',UZB:'🇺🇿',PRK:'🇰🇵',
+GEO:'🇬🇪',AZE:'🇦🇿',ARM:'🇦🇲',ISR:'🇮🇱',EGY:'🇪🇬',ALG:'🇩🇿',TUN:'🇹🇳',THA:'🇹🇭',INA:'🇮🇩',PHI:'🇵🇭',
+CHI:'🇨🇱',PER:'🇵🇪',ECU:'🇪🇨',DOM:'🇩🇴',PUR:'🇵🇷',HKG:'🇭🇰',TPE:'🇹🇼',MGL:'🇲🇳',EUA:'🇩🇪',GER36:'🇩🇪'};
+
+/* ---------------- the Games ---------------- */
+/* s: S summer, W winter, X cancelled, F future */
+const GAMES = [
+{id:'s1896',y:1896,s:'S',city:'Athens',country:'Greece',ioc:'GRE',cont:'Europe',lat:37.9838,lng:23.7275,
+ ed:'Games of the I Olympiad',dates:'6 to 15 April 1896',nocs:14,ath:241,ev:43,sp:9,
+ note:'Fourteen nations, no women, and a marathon invented for the occasion. Spyridon Louis won it and became a national hero overnight.',
+ medals:[['USA',11,7,2],['GRE',10,17,19],['GER',6,5,2],['FRA',5,4,2],['GBR',2,3,2]]},
+{id:'s1900',y:1900,s:'S',city:'Paris',country:'France',ioc:'FRA',cont:'Europe',lat:48.8566,lng:2.3522,
+ ed:'Games of the II Olympiad',dates:'14 May to 28 October 1900',nocs:24,ath:997,ev:95,sp:19,
+ note:'Spread over five months and folded into the World\u2019s Fair. Many competitors never realised they had been in the Olympics.',
+ medals:[['FRA',26,41,34],['USA',19,14,14],['GBR',15,6,9],['BEL',6,7,5],['SUI',6,2,1]]},
+{id:'s1904',y:1904,s:'S',city:'St. Louis',country:'United States of America',ioc:'USA',cont:'Americas',lat:38.627,lng:-90.1994,
+ ed:'Games of the III Olympiad',dates:'1 July to 23 November 1904',nocs:12,ath:651,ev:91,sp:16,
+ note:'Travel costs kept most of Europe away, so American athletes took the vast majority of the medals.',
+ medals:[['USA',78,82,79],['GER',4,4,5],['CAN',4,1,1],['CUB',4,2,3],['HUN',2,1,1]]},
+{id:'s1908',y:1908,s:'S',city:'London',country:'United Kingdom',ioc:'GBR',cont:'Europe',lat:51.5074,lng:-0.1278,
+ ed:'Games of the IV Olympiad',dates:'27 April to 31 October 1908',nocs:22,ath:2008,ev:110,sp:22,
+ note:'The marathon was stretched to 26 miles 385 yards so it could finish in front of the royal box. The distance stuck.',
+ medals:[['GBR',56,51,39],['USA',23,12,12],['SWE',8,6,11],['FRA',5,5,9],['GER',3,5,5]]},
+{id:'s1912',y:1912,s:'S',city:'Stockholm',country:'Sweden',ioc:'SWE',cont:'Europe',lat:59.3293,lng:18.0686,
+ ed:'Games of the V Olympiad',dates:'5 May to 27 July 1912',nocs:28,ath:2407,ev:102,sp:14,
+ note:'Electric timing and a photo finish camera appeared for the first time. Jim Thorpe won both the pentathlon and the decathlon.',
+ medals:[['USA',25,19,19],['SWE',24,24,17],['GBR',10,15,16],['FIN',9,8,9],['FRA',7,4,3]]},
+{id:'x1916',y:1916,s:'X',city:'Berlin',country:'Germany',ioc:'GER',cont:'Europe',lat:52.52,lng:13.405,
+ ed:'Games of the VI Olympiad',dates:'Cancelled',note:'Cancelled because of the First World War.'},
+{id:'s1920',y:1920,s:'S',city:'Antwerp',country:'Belgium',ioc:'BEL',cont:'Europe',lat:51.2194,lng:4.4025,
+ ed:'Games of the VII Olympiad',dates:'20 April to 12 September 1920',nocs:29,ath:2626,ev:154,sp:22,
+ note:'The Olympic flag with the five rings was flown for the first time, over a city still rebuilding from the war.',
+ medals:[['USA',41,27,27],['SWE',19,20,25],['GBR',15,15,13],['FIN',15,10,9],['BEL',14,11,11]]},
+{id:'s1924',y:1924,s:'S',city:'Paris',country:'France',ioc:'FRA',cont:'Europe',lat:48.8566,lng:2.3522,
+ ed:'Games of the VIII Olympiad',dates:'4 May to 27 July 1924',nocs:44,ath:3089,ev:126,sp:17,
+ note:'Paavo Nurmi won the 1500 m and the 5000 m within an hour. The Games later inspired Chariots of Fire.',
+ medals:[['USA',45,27,27],['FIN',14,13,10],['FRA',13,15,10],['GBR',9,13,12],['ITA',8,3,5]]},
+{id:'s1928',y:1928,s:'S',city:'Amsterdam',country:'Netherlands',ioc:'NED',cont:'Europe',lat:52.3676,lng:4.9041,
+ ed:'Games of the IX Olympiad',dates:'17 May to 12 August 1928',nocs:46,ath:2883,ev:109,sp:14,
+ note:'Women competed in athletics for the first time, and the Olympic flame burned in the stadium.',
+ medals:[['USA',22,18,16],['GER',10,7,14],['FIN',8,8,9],['SWE',7,6,12],['ITA',7,5,7]]},
+{id:'s1932',y:1932,s:'S',city:'Los Angeles',country:'United States of America',ioc:'USA',cont:'Americas',lat:34.0522,lng:-118.2437,
+ ed:'Games of the X Olympiad',dates:'30 July to 14 August 1932',nocs:37,ath:1332,ev:117,sp:14,
+ note:'The first purpose built Olympic Village, and the first victory podium with three levels.',
+ medals:[['USA',41,32,30],['ITA',12,12,12],['FRA',10,5,4],['SWE',9,5,9],['JPN',7,7,4]]},
+{id:'s1936',y:1936,s:'S',city:'Berlin',country:'Germany',ioc:'GER',cont:'Europe',lat:52.52,lng:13.405,
+ ed:'Games of the XI Olympiad',dates:'1 to 16 August 1936',nocs:49,ath:3963,ev:129,sp:19,
+ note:'Staged as Nazi propaganda. Jesse Owens answered with four gold medals in front of the regime that staged it.',
+ medals:[['GER',33,26,30],['USA',24,20,12],['HUN',10,1,5],['ITA',8,9,5],['FIN',7,6,6]]},
+{id:'x1940',y:1940,s:'X',city:'Tokyo',country:'Japan',ioc:'JPN',cont:'Asia',lat:35.6762,lng:139.6503,
+ ed:'Games of the XII Olympiad',dates:'Cancelled',note:'Awarded to Tokyo, moved to Helsinki, then cancelled because of the Second World War.'},
+{id:'x1944',y:1944,s:'X',city:'London',country:'United Kingdom',ioc:'GBR',cont:'Europe',lat:51.5074,lng:-0.1278,
+ ed:'Games of the XIII Olympiad',dates:'Cancelled',note:'Cancelled because of the Second World War.'},
+{id:'s1948',y:1948,s:'S',city:'London',country:'United Kingdom',ioc:'GBR',cont:'Europe',lat:51.5074,lng:-0.1278,
+ ed:'Games of the XIV Olympiad',dates:'29 July to 14 August 1948',nocs:59,ath:4104,ev:136,sp:17,
+ note:'The Austerity Games. Athletes brought their own towels and Fanny Blankers-Koen won four golds at 30 years old.',
+ medals:[['USA',38,27,19],['SWE',16,11,17],['FRA',10,6,13],['HUN',10,5,12],['ITA',8,11,8]]},
+{id:'s1952',y:1952,s:'S',city:'Helsinki',country:'Finland',ioc:'FIN',cont:'Europe',lat:60.1699,lng:24.9384,
+ ed:'Games of the XV Olympiad',dates:'19 July to 3 August 1952',nocs:69,ath:4955,ev:149,sp:17,
+ note:'The Soviet Union entered for the first time. Emil Z\u00e1topek won the 5000 m, 10,000 m and marathon in eight days.',
+ medals:[['USA',40,19,17],['URS',22,30,19],['HUN',16,10,16],['SWE',12,13,10],['ITA',8,9,4]]},
+{id:'s1956',y:1956,s:'S',city:'Melbourne',country:'Australia',ioc:'AUS',cont:'Oceania',lat:-37.8136,lng:144.9631,
+ ed:'Games of the XVI Olympiad',dates:'22 November to 8 December 1956',nocs:72,ath:3314,ev:145,sp:17,
+ note:'The first Games in the southern hemisphere, held in the Australian summer. Athletes marched together at the closing ceremony for the first time.',
+ medals:[['URS',37,29,32],['USA',32,25,17],['AUS',13,8,14],['HUN',9,10,7],['ITA',8,8,9]]},
+{id:'s1960',y:1960,s:'S',city:'Rome',country:'Italy',ioc:'ITA',cont:'Europe',lat:41.9028,lng:12.4964,
+ ed:'Games of the XVII Olympiad',dates:'25 August to 11 September 1960',nocs:83,ath:5338,ev:150,sp:17,
+ note:'Abebe Bikila ran the marathon barefoot through Rome at night and won it. Cassius Clay took light heavyweight gold.',
+ medals:[['URS',43,29,31],['USA',34,21,16],['ITA',13,10,13],['GER',12,19,11],['AUS',8,8,6]]},
+{id:'s1964',y:1964,s:'S',city:'Tokyo',country:'Japan',ioc:'JPN',cont:'Asia',lat:35.6762,lng:139.6503,
+ ed:'Games of the XVIII Olympiad',dates:'10 to 24 October 1964',nocs:93,ath:5151,ev:163,sp:19,
+ note:'The first Games in Asia and the first broadcast live by satellite. Judo and volleyball joined the programme.',
+ medals:[['USA',36,26,28],['URS',30,31,35],['JPN',16,5,8],['GER',10,22,18],['ITA',10,10,7]]},
+{id:'s1968',y:1968,s:'S',city:'Mexico City',country:'Mexico',ioc:'MEX',cont:'Americas',lat:19.4326,lng:-99.1332,
+ ed:'Games of the XIX Olympiad',dates:'12 to 27 October 1968',nocs:112,ath:5516,ev:172,sp:18,
+ note:'Thin air at 2,240 m rewrote the sprint and jump records. Bob Beamon jumped 8.90 m and Tommie Smith and John Carlos raised their fists.',
+ medals:[['USA',45,28,34],['URS',29,32,30],['JPN',11,7,7],['HUN',10,10,12],['GDR',9,9,7]]},
+{id:'s1972',y:1972,s:'S',city:'Munich',country:'Germany',ioc:'FRG',cont:'Europe',lat:48.1351,lng:11.582,
+ ed:'Games of the XX Olympiad',dates:'26 August to 11 September 1972',nocs:121,ath:7134,ev:195,sp:21,
+ note:'Mark Spitz won seven swimming golds. The Games were also scarred by the murder of eleven Israeli team members.',
+ medals:[['URS',50,27,22],['USA',33,31,30],['GDR',20,23,23],['FRG',13,11,16],['JPN',13,8,8]]},
+{id:'s1976',y:1976,s:'S',city:'Montreal',country:'Canada',ioc:'CAN',cont:'Americas',lat:45.5019,lng:-73.5674,
+ ed:'Games of the XXI Olympiad',dates:'17 July to 1 August 1976',nocs:92,ath:6084,ev:198,sp:21,
+ note:'Nadia Com\u0103neci scored the first perfect 10 in Olympic gymnastics. The scoreboard could only show 1.00.',
+ medals:[['URS',49,41,35],['GDR',40,25,25],['USA',34,35,25],['FRG',10,12,17],['JPN',9,6,10]]},
+{id:'s1980',y:1980,s:'S',city:'Moscow',country:'Russia',ioc:'URS',cont:'Europe',lat:55.7558,lng:37.6173,
+ ed:'Games of the XXII Olympiad',dates:'19 July to 3 August 1980',nocs:80,ath:5179,ev:203,sp:21,
+ note:'Boycotted by 66 nations including the United States. Sebastian Coe and Steve Ovett split the 800 m and 1500 m titles.',
+ medals:[['URS',80,69,46],['GDR',47,37,42],['BUL',8,16,17],['CUB',8,7,5],['ITA',8,3,4]]},
+{id:'s1984',y:1984,s:'S',city:'Los Angeles',country:'United States of America',ioc:'USA',cont:'Americas',lat:34.0522,lng:-118.2437,
+ ed:'Games of the XXIII Olympiad',dates:'28 July to 12 August 1984',nocs:140,ath:6829,ev:221,sp:21,
+ note:'Answered by a Soviet led boycott, and run at a profit. Carl Lewis matched Jesse Owens with four golds.',
+ medals:[['USA',83,61,30],['ROU',20,16,17],['FRG',17,19,23],['CHN',15,8,9],['ITA',14,6,12]]},
+{id:'s1988',y:1988,s:'S',city:'Seoul',country:'South Korea',ioc:'KOR',cont:'Asia',lat:37.5665,lng:126.978,
+ ed:'Games of the XXIV Olympiad',dates:'17 September to 2 October 1988',nocs:159,ath:8391,ev:237,sp:23,
+ note:'Ben Johnson\u2019s 100 m win was erased three days later after a positive test, the sport\u2019s defining doping case.',
+ medals:[['URS',55,31,46],['GDR',37,35,30],['USA',36,31,27],['KOR',12,10,11],['FRG',11,14,15]]},
+{id:'s1992',y:1992,s:'S',city:'Barcelona',country:'Spain',ioc:'ESP',cont:'Europe',lat:41.3874,lng:2.1686,
+ ed:'Games of the XXV Olympiad',dates:'25 July to 9 August 1992',nocs:169,ath:9356,ev:257,sp:25,
+ note:'Professional NBA players arrived as the Dream Team, South Africa returned, and Barcelona rebuilt its waterfront around the Games.',
+ medals:[['EUN',45,38,29],['USA',37,34,37],['GER',33,21,28],['CHN',16,22,16],['CUB',14,6,11]]},
+{id:'s1996',y:1996,s:'S',city:'Atlanta',country:'United States of America',ioc:'USA',cont:'Americas',lat:33.749,lng:-84.388,
+ ed:'Games of the XXVI Olympiad',dates:'19 July to 4 August 1996',nocs:197,ath:10318,ev:271,sp:26,
+ note:'The centennial Games. Michael Johnson won the 200 m in 19.32 wearing gold shoes.',
+ medals:[['USA',44,32,25],['RUS',26,21,16],['GER',20,18,27],['CHN',16,22,12],['AUS',9,9,23]]},
+{id:'s2000',y:2000,s:'S',city:'Sydney',country:'Australia',ioc:'AUS',cont:'Oceania',lat:-33.8688,lng:151.2093,
+ ed:'Games of the XXVII Olympiad',dates:'15 September to 1 October 2000',nocs:199,ath:10651,ev:300,sp:28,
+ note:'Cathy Freeman lit the cauldron and then won the 400 m in front of a home crowd.',
+ medals:[['USA',37,24,33],['RUS',32,28,29],['CHN',28,16,15],['AUS',16,25,17],['GER',13,17,26]]},
+{id:'s2004',y:2004,s:'S',city:'Athens',country:'Greece',ioc:'GRE',cont:'Europe',lat:37.9838,lng:23.7275,
+ ed:'Games of the XXVIII Olympiad',dates:'13 to 29 August 2004',nocs:201,ath:10625,ev:301,sp:28,
+ note:'The Games returned to their birthplace. The shot put was staged at ancient Olympia.',
+ medals:[['USA',36,39,27],['CHN',32,17,14],['RUS',27,27,38],['AUS',17,16,17],['JPN',16,9,12]]},
+{id:'s2008',y:2008,s:'S',city:'Beijing',country:'China',ioc:'CHN',cont:'Asia',lat:39.9042,lng:116.4074,
+ ed:'Games of the XXIX Olympiad',dates:'8 to 24 August 2008',nocs:204,ath:10942,ev:302,sp:28,
+ note:'Michael Phelps won eight golds in a single Games and Usain Bolt announced himself with two world records.',
+ medals:[['CHN',48,22,30],['USA',36,39,37],['RUS',24,13,23],['GBR',19,13,19],['GER',16,10,15]]},
+{id:'s2012',y:2012,s:'S',city:'London',country:'United Kingdom',ioc:'GBR',cont:'Europe',lat:51.5074,lng:-0.1278,
+ ed:'Games of the XXX Olympiad',dates:'27 July to 12 August 2012',nocs:204,ath:10568,ev:302,sp:26,
+ note:'The first Games where every nation sent at least one woman, and every sport was open to women.',
+ medals:[['USA',46,29,29],['CHN',38,27,23],['GBR',29,17,19],['RUS',24,26,32],['KOR',13,8,7]]},
+{id:'s2016',y:2016,s:'S',city:'Rio de Janeiro',country:'Brazil',ioc:'BRA',cont:'Americas',lat:-22.9068,lng:-43.1729,
+ ed:'Games of the XXXI Olympiad',dates:'5 to 21 August 2016',nocs:207,ath:11238,ev:306,sp:28,
+ note:'The first Games in South America, and the first with a Refugee Olympic Team.',
+ medals:[['USA',46,37,38],['GBR',27,23,17],['CHN',26,18,26],['RUS',19,18,20],['GER',17,10,15]]},
+{id:'s2020',y:2020,s:'S',city:'Tokyo',country:'Japan',ioc:'JPN',cont:'Asia',lat:35.6762,lng:139.6503,
+ ed:'Games of the XXXII Olympiad',dates:'23 July to 8 August 2021',nocs:206,ath:11420,ev:339,sp:33,
+ note:'Postponed a year by the pandemic and held in near empty stadiums. Skateboarding, surfing and climbing debuted.',
+ medals:[['USA',39,41,33],['CHN',38,32,19],['JPN',27,14,17],['GBR',22,20,22],['ROC',20,28,23]]},
+{id:'s2024',y:2024,s:'S',city:'Paris',country:'France',ioc:'FRA',cont:'Europe',lat:48.8566,lng:2.3522,
+ ed:'Games of the XXXIII Olympiad',dates:'26 July to 11 August 2024',nocs:206,ath:10500,ev:329,sp:32,
+ note:'The opening ceremony ran down the Seine, the first held outside a stadium, and the programme reached full gender parity.',
+ medals:[['USA',40,44,42],['CHN',40,27,24],['JPN',20,12,13],['AUS',18,19,16],['FRA',16,26,22]]},
+{id:'f2028',y:2028,s:'F',city:'Los Angeles',country:'United States of America',ioc:'USA',cont:'Americas',lat:34.0522,lng:-118.2437,
+ ed:'Games of the XXXIV Olympiad',dates:'14 to 30 July 2028',
+ note:'Los Angeles becomes the third city to host three times. Cricket, flag football, squash and lacrosse join the programme.'},
+{id:'f2032',y:2032,s:'F',city:'Brisbane',country:'Australia',ioc:'AUS',cont:'Oceania',lat:-27.4698,lng:153.0251,
+ ed:'Games of the XXXV Olympiad',dates:'23 July to 8 August 2032',
+ note:'Queensland hosts, with venues spread along the coast from the Gold Coast to the Sunshine Coast.'},
+
+/* ---- winter ---- */
+{id:'w1924',y:1924,s:'W',city:'Chamonix',country:'France',ioc:'FRA',cont:'Europe',lat:45.9237,lng:6.8694,
+ ed:'I Olympic Winter Games',dates:'25 January to 5 February 1924',nocs:16,ath:258,ev:16,sp:6,
+ note:'Billed as International Winter Sports Week and only recognised as an Olympics afterwards.',
+ medals:[['NOR',4,7,6],['FIN',4,4,3],['AUT',2,1,0],['SUI',2,0,1],['USA',1,2,1]]},
+{id:'w1928',y:1928,s:'W',city:'St. Moritz',country:'Switzerland',ioc:'SUI',cont:'Europe',lat:46.4908,lng:9.8355,
+ ed:'II Olympic Winter Games',dates:'11 to 19 February 1928',nocs:25,ath:464,ev:14,sp:6,
+ note:'A thaw wiped out the 10,000 m speed skating race mid competition. Sonja Henie won her first title at 15.',
+ medals:[['NOR',6,4,5],['USA',2,2,2],['SWE',2,2,1],['FIN',2,1,1],['CAN',1,0,0]]},
+{id:'w1932',y:1932,s:'W',city:'Lake Placid',country:'United States of America',ioc:'USA',cont:'Americas',lat:44.2795,lng:-73.9799,
+ ed:'III Olympic Winter Games',dates:'4 to 15 February 1932',nocs:17,ath:252,ev:14,sp:4,
+ note:'The Depression kept teams away and only seventeen nations made the trip.',
+ medals:[['USA',6,4,2],['NOR',3,4,3],['SWE',1,2,0],['CAN',1,1,5],['FIN',1,1,1]]},
+{id:'w1936',y:1936,s:'W',city:'Garmisch-Partenkirchen',country:'Germany',ioc:'GER',cont:'Europe',lat:47.4917,lng:11.0954,
+ ed:'IV Olympic Winter Games',dates:'6 to 16 February 1936',nocs:28,ath:646,ev:17,sp:4,
+ note:'Alpine skiing entered the programme, and Sonja Henie took a third straight figure skating gold.',
+ medals:[['NOR',7,5,3],['GER',3,3,0],['SWE',2,2,3],['FIN',1,2,3],['SUI',1,2,0]]},
+{id:'w1948',y:1948,s:'W',city:'St. Moritz',country:'Switzerland',ioc:'SUI',cont:'Europe',lat:46.4908,lng:9.8355,
+ ed:'V Olympic Winter Games',dates:'30 January to 8 February 1948',nocs:28,ath:669,ev:22,sp:4,
+ note:'The first Games after the war, held in a neutral country. Germany and Japan were not invited.',
+ medals:[['SWE',4,3,3],['NOR',4,3,3],['SUI',3,4,3],['USA',3,4,2],['FRA',2,1,2]]},
+{id:'w1952',y:1952,s:'W',city:'Oslo',country:'Norway',ioc:'NOR',cont:'Europe',lat:59.9139,lng:10.7522,
+ ed:'VI Olympic Winter Games',dates:'14 to 25 February 1952',nocs:30,ath:694,ev:22,sp:4,
+ note:'The torch was lit at the hearth of Sondre Norheim, the father of modern skiing, rather than in Greece.',
+ medals:[['NOR',7,3,6],['USA',4,6,1],['FIN',3,4,2],['GER',3,2,2],['AUT',2,4,2]]},
+{id:'w1956',y:1956,s:'W',city:'Cortina d\u2019Ampezzo',country:'Italy',ioc:'ITA',cont:'Europe',lat:46.5405,lng:12.1357,
+ ed:'VII Olympic Winter Games',dates:'26 January to 5 February 1956',nocs:32,ath:821,ev:24,sp:4,
+ note:'The first Winter Games on television, and the Soviet debut. Toni Sailer swept all three alpine titles.',
+ medals:[['URS',7,3,6],['AUT',4,3,4],['FIN',3,3,1],['SUI',3,2,1],['SWE',2,4,4]]},
+{id:'w1960',y:1960,s:'W',city:'Squaw Valley',country:'United States of America',ioc:'USA',cont:'Americas',lat:39.1966,lng:-120.2357,
+ ed:'VIII Olympic Winter Games',dates:'18 to 28 February 1960',nocs:30,ath:665,ev:27,sp:4,
+ note:'Built from nothing in a California valley. Bobsleigh was dropped because organisers refused to build a track.',
+ medals:[['URS',7,5,9],['EUA',4,3,1],['USA',3,4,3],['NOR',3,3,0],['SWE',3,2,2]]},
+{id:'w1964',y:1964,s:'W',city:'Innsbruck',country:'Austria',ioc:'AUT',cont:'Europe',lat:47.2692,lng:11.4041,
+ ed:'IX Olympic Winter Games',dates:'29 January to 9 February 1964',nocs:36,ath:1091,ev:34,sp:6,
+ note:'A warm winter forced the Austrian army to haul snow and ice down to the venues by hand.',
+ medals:[['URS',11,8,6],['AUT',4,5,3],['NOR',3,6,6],['FIN',3,4,3],['FRA',3,4,0]]},
+{id:'w1968',y:1968,s:'W',city:'Grenoble',country:'France',ioc:'FRA',cont:'Europe',lat:45.1885,lng:5.7245,
+ ed:'X Olympic Winter Games',dates:'6 to 18 February 1968',nocs:37,ath:1158,ev:35,sp:6,
+ note:'Jean-Claude Killy swept the three alpine golds at home. Doping and sex testing were introduced.',
+ medals:[['NOR',6,6,2],['URS',5,5,3],['FRA',4,3,2],['ITA',4,0,0],['AUT',3,4,4]]},
+{id:'w1972',y:1972,s:'W',city:'Sapporo',country:'Japan',ioc:'JPN',cont:'Asia',lat:43.0618,lng:141.3545,
+ ed:'XI Olympic Winter Games',dates:'3 to 13 February 1972',nocs:35,ath:1006,ev:35,sp:6,
+ note:'The first Winter Games in Asia, and a Japanese sweep of the normal hill ski jumping podium.',
+ medals:[['URS',8,5,3],['GDR',4,3,7],['SUI',4,3,3],['NED',4,3,2],['USA',3,2,3]]},
+{id:'w1976',y:1976,s:'W',city:'Innsbruck',country:'Austria',ioc:'AUT',cont:'Europe',lat:47.2692,lng:11.4041,
+ ed:'XII Olympic Winter Games',dates:'4 to 15 February 1976',nocs:37,ath:1123,ev:37,sp:6,
+ note:'Denver had won the bid and then voted it down, so Innsbruck stepped in with twelve years of experience.',
+ medals:[['URS',13,6,8],['GDR',7,5,7],['USA',3,3,4],['NOR',3,3,1],['FRG',2,5,3]]},
+{id:'w1980',y:1980,s:'W',city:'Lake Placid',country:'United States of America',ioc:'USA',cont:'Americas',lat:44.2795,lng:-73.9799,
+ ed:'XIII Olympic Winter Games',dates:'13 to 24 February 1980',nocs:37,ath:1072,ev:38,sp:6,
+ note:'Eric Heiden won all five speed skating golds and a college hockey team beat the Soviet Union.',
+ medals:[['URS',10,6,6],['GDR',9,7,7],['USA',6,4,2],['AUT',3,2,2],['SWE',3,0,1]]},
+{id:'w1984',y:1984,s:'W',city:'Sarajevo',country:'Bosnia and Herzegovina',ioc:'YUG',cont:'Europe',lat:43.8563,lng:18.4131,
+ ed:'XIV Olympic Winter Games',dates:'8 to 19 February 1984',nocs:49,ath:1272,ev:39,sp:6,
+ note:'Torvill and Dean scored a perfect row of sixes for Bolero. Eight years later the bobsleigh track was a front line.',
+ medals:[['GDR',9,9,6],['URS',6,10,9],['USA',4,4,0],['FIN',4,3,6],['SWE',4,2,2]]},
+{id:'w1988',y:1988,s:'W',city:'Calgary',country:'Canada',ioc:'CAN',cont:'Americas',lat:51.0447,lng:-114.0719,
+ ed:'XV Olympic Winter Games',dates:'13 to 28 February 1988',nocs:57,ath:1423,ev:46,sp:6,
+ note:'Eddie the Eagle and the Jamaican bobsleigh team turned last place into folklore.',
+ medals:[['URS',11,9,9],['GDR',9,10,6],['SUI',5,5,5],['FIN',4,1,2],['SWE',4,0,2]]},
+{id:'w1992',y:1992,s:'W',city:'Albertville',country:'France',ioc:'FRA',cont:'Europe',lat:45.6753,lng:6.3925,
+ ed:'XVI Olympic Winter Games',dates:'8 to 23 February 1992',nocs:64,ath:1801,ev:57,sp:6,
+ note:'The last Winter Games in the same year as the Summer Games. Freestyle moguls and short track became full medal events.',
+ medals:[['GER',10,10,6],['EUN',9,6,8],['NOR',9,6,5],['AUT',6,7,8],['USA',5,4,2]]},
+{id:'w1994',y:1994,s:'W',city:'Lillehammer',country:'Norway',ioc:'NOR',cont:'Europe',lat:61.1153,lng:10.4662,
+ ed:'XVII Olympic Winter Games',dates:'12 to 27 February 1994',nocs:67,ath:1737,ev:61,sp:6,
+ note:'Held two years after Albertville to split the Olympic calendar, and still a benchmark for atmosphere.',
+ medals:[['RUS',11,8,4],['NOR',10,11,5],['GER',9,7,8],['ITA',7,5,8],['USA',6,5,2]]},
+{id:'w1998',y:1998,s:'W',city:'Nagano',country:'Japan',ioc:'JPN',cont:'Asia',lat:36.6513,lng:138.181,
+ ed:'XVIII Olympic Winter Games',dates:'7 to 22 February 1998',nocs:72,ath:2176,ev:68,sp:7,
+ note:'NHL players and snowboarding both arrived, and the Czech Republic won the hockey tournament.',
+ medals:[['GER',12,9,8],['NOR',10,10,5],['RUS',9,6,3],['CAN',6,5,4],['USA',6,3,4]]},
+{id:'w2002',y:2002,s:'W',city:'Salt Lake City',country:'United States of America',ioc:'USA',cont:'Americas',lat:40.7608,lng:-111.891,
+ ed:'XIX Olympic Winter Games',dates:'8 to 24 February 2002',nocs:78,ath:2399,ev:78,sp:7,
+ note:'A judging scandal in pairs figure skating led to two gold medals and a rebuilt scoring system.',
+ medals:[['NOR',13,5,7],['GER',12,16,8],['USA',10,13,11],['CAN',7,3,7],['RUS',5,4,4]]},
+{id:'w2006',y:2006,s:'W',city:'Turin',country:'Italy',ioc:'ITA',cont:'Europe',lat:45.0703,lng:7.6869,
+ ed:'XX Olympic Winter Games',dates:'10 to 26 February 2006',nocs:80,ath:2508,ev:84,sp:7,
+ note:'Snowboard cross debuted and Turin used its industrial districts as Olympic venues.',
+ medals:[['GER',11,12,6],['USA',9,9,7],['AUT',9,7,7],['RUS',8,6,8],['CAN',7,10,7]]},
+{id:'w2010',y:2010,s:'W',city:'Vancouver',country:'Canada',ioc:'CAN',cont:'Americas',lat:49.2827,lng:-123.1207,
+ ed:'XXI Olympic Winter Games',dates:'12 to 28 February 2010',nocs:82,ath:2626,ev:86,sp:7,
+ note:'Sidney Crosby\u2019s overtime goal against the United States gave Canada a record fourteenth gold.',
+ medals:[['CAN',14,7,5],['GER',10,13,7],['USA',9,15,13],['NOR',9,8,6],['KOR',6,6,2]]},
+{id:'w2014',y:2014,s:'W',city:'Sochi',country:'Russia',ioc:'RUS',cont:'Europe',lat:43.6028,lng:39.7342,
+ ed:'XXII Olympic Winter Games',dates:'7 to 23 February 2014',nocs:88,ath:2873,ev:98,sp:7,
+ note:'The most expensive Games ever staged, and later the subject of a state sponsored doping investigation that reallocated medals.',
+ medals:[['RUS',11,9,9],['NOR',11,5,10],['CAN',10,10,5],['USA',9,8,6],['NED',8,7,9]]},
+{id:'w2018',y:2018,s:'W',city:'PyeongChang',country:'South Korea',ioc:'KOR',cont:'Asia',lat:37.3705,lng:128.39,
+ ed:'XXIII Olympic Winter Games',dates:'9 to 25 February 2018',nocs:92,ath:2922,ev:102,sp:7,
+ note:'North and South Korea marched together and fielded a joint women\u2019s hockey team.',
+ medals:[['NOR',14,14,11],['GER',14,10,7],['CAN',11,8,10],['USA',9,8,6],['NED',8,6,6]]},
+{id:'w2022',y:2022,s:'W',city:'Beijing',country:'China',ioc:'CHN',cont:'Asia',lat:39.9042,lng:116.4074,
+ ed:'XXIV Olympic Winter Games',dates:'4 to 20 February 2022',nocs:91,ath:2871,ev:109,sp:7,
+ note:'Beijing became the first city to host both a Summer and a Winter Games, on entirely artificial snow.',
+ medals:[['NOR',16,8,13],['GER',12,10,5],['CHN',9,4,2],['USA',8,10,7],['SWE',8,5,5]]},
+{id:'w2026',y:2026,s:'W',city:'Milan and Cortina',country:'Italy',ioc:'ITA',cont:'Europe',lat:45.4642,lng:9.19,
+ ed:'XXV Olympic Winter Games',dates:'6 to 22 February 2026',nocs:29,ath:2900,ev:116,sp:8,
+ note:'Norway set a Winter Games record with 18 golds. The United States won 12, its highest winter total, finishing with hockey gold over Canada.',
+ medals:[['NOR',18,12,11],['USA',12,12,9],['NED',10,7,3],['ITA',10,6,14],['GER',8,10,8],['FRA',8,9,6],['SWE',8,6,4]]},
+{id:'f2030',y:2030,s:'F',city:'French Alps',country:'France',ioc:'FRA',cont:'Europe',lat:45.2,lng:6.4,
+ ed:'XXVI Olympic Winter Games',dates:'February 2030',
+ note:'Spread across the French Alps, using existing resorts in Savoie, Haute-Savoie, Bri\u00e7an\u00e7on and Nice.'},
+{id:'f2034',y:2034,s:'F',city:'Salt Lake City',country:'United States of America',ioc:'USA',cont:'Americas',lat:40.7608,lng:-111.891,
+ ed:'XXVII Olympic Winter Games',dates:'February 2034',
+ note:'Salt Lake City returns 32 years after 2002, reusing almost every venue it built the first time.'}
+];
+
+/* ---------------- event podiums ----------------
+   g/s/b = [athlete or team, IOC code, mark]
+   Coverage is deepest for recent Games.               */
+const RESULTS = {
+s2024:{
+ Athletics:[
+  {ev:"Men's 100 m",g:['Noah Lyles','USA','9.784'],s:['Kishane Thompson','JAM','9.789'],b:['Fred Kerley','USA','9.81'],note:'Five thousandths of a second separated gold from silver, the closest 100 m final in Olympic history.'},
+  {ev:"Women's 100 m",g:['Julien Alfred','LCA','10.72'],s:["Sha'Carri Richardson",'USA','10.87'],b:['Melissa Jefferson','USA','10.92'],note:'Saint Lucia\u2019s first Olympic medal of any colour.'},
+  {ev:"Men's 200 m",g:['Letsile Tebogo','BOT','19.46'],s:['Kenneth Bednarek','USA','19.62'],b:['Noah Lyles','USA','19.70']},
+  {ev:"Men's 1500 m",g:['Cole Hocker','USA','3:27.65'],s:['Josh Kerr','GBR','3:27.79'],b:['Yared Nuguse','USA','3:27.80'],note:'Olympic record, and the fastest three finishers the distance has ever seen at a Games.'},
+  {ev:"Women's 1500 m",g:['Faith Kipyegon','KEN','3:51.29'],s:['Jessica Hull','AUS','3:52.56'],b:['Georgia Bell','GBR','3:52.61'],note:'Olympic record. A third straight title for Kipyegon.'},
+  {ev:"Men's 400 m hurdles",g:['Rai Benjamin','USA','46.46'],s:['Karsten Warholm','NOR','47.06'],b:['Alison dos Santos','BRA','47.26']},
+  {ev:"Women's 400 m hurdles",g:['Sydney McLaughlin-Levrone','USA','50.37'],s:['Anna Cockrell','USA','51.87'],b:['Femke Bol','NED','52.15'],note:'World record.'},
+  {ev:"Men's pole vault",g:['Armand Duplantis','SWE','6.25 m'],s:['Sam Kendricks','USA','5.95 m'],b:['Emmanouil Karalis','GRE','5.90 m'],note:'World record on the final attempt of the night.'},
+  {ev:"Men's marathon",g:['Tamirat Tola','ETH','2:06:26'],s:['Bashir Abdi','BEL','2:06:47'],b:['Benson Kipruto','KEN','2:07:00'],note:'Olympic record on a course with 438 m of climbing.'},
+  {ev:"Women's marathon",g:['Sifan Hassan','NED','2:22:55'],s:['Tigst Assefa','ETH','2:22:58'],b:['Hellen Obiri','KEN','2:23:10'],note:'Olympic record, six days after Hassan medalled in both the 5000 m and 10,000 m.'}
+ ],
+ Swimming:[
+  {ev:"Men's 100 m freestyle",g:['Pan Zhanle','CHN','46.40'],s:['Kyle Chalmers','AUS','47.48'],b:['David Popovici','ROU','47.49'],note:'World record by more than a second over the field.'},
+  {ev:"Men's 200 m freestyle",g:['David Popovici','ROU','1:44.72'],s:['Matthew Richards','GBR','1:44.74'],b:['Luke Hobson','USA','1:44.79']},
+  {ev:"Men's 200 m butterfly",g:['L\u00e9on Marchand','FRA','1:51.21'],s:['Krist\u00f3f Mil\u00e1k','HUN','1:51.75'],b:['Ilya Kharun','CAN','1:52.80'],note:'Olympic record, won about two hours before Marchand also took the 200 m breaststroke.'},
+  {ev:"Men's 400 m individual medley",g:['L\u00e9on Marchand','FRA','4:02.95'],s:['Tomoyuki Matsushita','JPN','4:08.62'],b:['Carson Foster','USA','4:08.66'],note:'Olympic record.'},
+  {ev:"Men's 1500 m freestyle",g:['Bobby Finke','USA','14:30.67'],s:['Gregorio Paltrinieri','ITA','14:34.55'],b:['Daniel Wiffen','IRL','14:39.63'],note:'World record.'},
+  {ev:"Women's 400 m freestyle",g:['Ariarne Titmus','AUS','3:57.49'],s:['Summer McIntosh','CAN','3:58.37'],b:['Katie Ledecky','USA','4:00.86']},
+  {ev:"Women's 800 m freestyle",g:['Katie Ledecky','USA','8:11.04'],s:['Ariarne Titmus','AUS','8:12.29'],b:['Paige Madden','USA','8:13.00'],note:'A fourth consecutive title in the event.'},
+  {ev:"Women's 400 m individual medley",g:['Summer McIntosh','CAN','4:27.71'],s:['Katie Grimes','USA','4:33.40'],b:['Emma Weyant','USA','4:34.93']},
+  {ev:"Women's 100 m butterfly",g:['Torri Huske','USA','55.59'],s:['Gretchen Walsh','USA','55.63'],b:['Zhang Yufei','CHN','56.21']}
+ ],
+ Gymnastics:[
+  {ev:"Women's team all-around",g:['United States','USA','171.296'],s:['Italy','ITA','165.494'],b:['Brazil','BRA','164.497']},
+  {ev:"Women's individual all-around",g:['Simone Biles','USA','59.131'],s:['Rebeca Andrade','BRA','57.932'],b:['Sunisa Lee','USA','56.465']},
+  {ev:"Women's floor exercise",g:['Rebeca Andrade','BRA','14.166'],s:['Simone Biles','USA','14.133'],b:['Ana B\u0103rbosu','ROU','13.700'],note:'The bronze was reassigned to B\u0103rbosu after a Court of Arbitration for Sport ruling on an inquiry filed for Jordan Chiles.'},
+  {ev:"Men's individual all-around",g:['Shinnosuke Oka','JPN','86.832'],s:['Zhang Boheng','CHN','86.298'],b:['Xiao Ruoteng','CHN','85.532']},
+  {ev:"Men's team all-around",g:['Japan','JPN','259.594'],s:['China','CHN','259.062'],b:['United States','USA','257.793'],note:'Japan came back from more than three points down after China fell twice on high bar.'}
+ ],
+ Basketball:[
+  {ev:"Men's tournament",g:['United States','USA','98-87 v France'],s:['France','FRA',''],b:['Serbia','SRB','']},
+  {ev:"Women's tournament",g:['United States','USA','67-66 v France'],s:['France','FRA',''],b:['Australia','AUS',''],note:'Decided by one point after a late three pointer landed with a toe on the line.'}
+ ],
+ Football:[
+  {ev:"Men's tournament",g:['Spain','ESP','5-3 v France'],s:['France','FRA',''],b:['Morocco','MAR','']},
+  {ev:"Women's tournament",g:['United States','USA','1-0 v Brazil'],s:['Brazil','BRA',''],b:['Germany','GER','']}
+ ],
+ Tennis:[
+  {ev:"Men's singles",g:['Novak Djokovic','SRB','7-6, 7-6 v Alcaraz'],s:['Carlos Alcaraz','ESP',''],b:['Lorenzo Musetti','ITA',''],note:'The one title missing from Djokovic\u2019s career, won at 37.'},
+  {ev:"Women's singles",g:['Zheng Qinwen','CHN','6-2, 6-3 v Vekic'],s:['Donna Veki\u0107','CRO',''],b:['Iga \u015awi\u0105tek','POL','']}
+ ],
+ 'Track cycling':[
+  {ev:"Men's sprint",g:['Harrie Lavreysen','NED',''],s:['Jeffrey Hoogland','NED',''],b:['Matthew Richardson','AUS','']},
+  {ev:"Women's keirin",g:['Ellesse Andrews','NZL',''],s:['Hetty van de Wouw','NED',''],b:['Emma Finucane','GBR','']}
+ ]
+},
+s2020:{
+ Athletics:[
+  {ev:"Men's 100 m",g:['Lamont Marcell Jacobs','ITA','9.80'],s:['Fred Kerley','USA','9.84'],b:['Andre De Grasse','CAN','9.89'],note:'The first Olympic 100 m final since 2004 without Usain Bolt.'},
+  {ev:"Women's 100 m",g:['Elaine Thompson-Herah','JAM','10.61'],s:['Shelly-Ann Fraser-Pryce','JAM','10.74'],b:['Shericka Jackson','JAM','10.76'],note:'Olympic record and a Jamaican sweep.'},
+  {ev:"Men's 200 m",g:['Andre De Grasse','CAN','19.62'],s:['Kenneth Bednarek','USA','19.68'],b:['Noah Lyles','USA','19.74']},
+  {ev:"Men's 400 m hurdles",g:['Karsten Warholm','NOR','45.94'],s:['Rai Benjamin','USA','46.17'],b:['Alison dos Santos','BRA','46.72'],note:'World record. The silver medal time would have been a world record the day before.'},
+  {ev:"Women's 400 m hurdles",g:['Sydney McLaughlin','USA','51.46'],s:['Dalilah Muhammad','USA','51.58'],b:['Femke Bol','NED','52.03'],note:'World record.'},
+  {ev:"Men's high jump",g:['Mutaz Essa Barshim','QAT','2.37 m'],s:['Gianmarco Tamberi','ITA','2.37 m'],b:['Maksim Nedasekau','BLR','2.37 m'],note:'Barshim and Tamberi turned down a jump off and agreed to share the gold.'},
+  {ev:"Men's pole vault",g:['Armand Duplantis','SWE','6.02 m'],s:['Christopher Nilsen','USA','5.97 m'],b:['Thiago Braz','BRA','5.87 m']},
+  {ev:"Women's 1500 m",g:['Faith Kipyegon','KEN','3:53.11'],s:['Laura Muir','GBR','3:54.50'],b:['Sifan Hassan','NED','3:55.86']}
+ ],
+ Swimming:[
+  {ev:"Men's 100 m freestyle",g:['Caeleb Dressel','USA','47.02'],s:['Kyle Chalmers','AUS','47.08'],b:['Kliment Kolesnikov','ROC','47.44'],note:'Olympic record.'},
+  {ev:"Men's 100 m butterfly",g:['Caeleb Dressel','USA','49.45'],s:['Krist\u00f3f Mil\u00e1k','HUN','49.68'],b:['Noe Ponti','SUI','50.74'],note:'World record.'},
+  {ev:"Men's 200 m butterfly",g:['Krist\u00f3f Mil\u00e1k','HUN','1:51.25'],s:['Tomoru Honda','JPN','1:53.73'],b:['Federico Burdisso','ITA','1:54.45'],note:'Olympic record.'},
+  {ev:"Men's 400 m individual medley",g:['Chase Kalisz','USA','4:09.42'],s:['Jay Litherland','USA','4:10.28'],b:['Brendon Smith','AUS','4:10.38']},
+  {ev:"Women's 1500 m freestyle",g:['Katie Ledecky','USA','15:37.34'],s:['Erica Sullivan','USA','15:41.41'],b:['Sarah K\u00f6hler','GER','15:42.91'],note:'The first Olympic women\u2019s 1500 m freestyle.'},
+  {ev:"Women's 200 m butterfly",g:['Zhang Yufei','CHN','2:03.86'],s:['Regan Smith','USA','2:05.30'],b:['Hali Flickinger','USA','2:05.65'],note:'Olympic record.'}
+ ],
+ Gymnastics:[
+  {ev:"Men's individual all-around",g:['Daiki Hashimoto','JPN','88.465'],s:['Xiao Ruoteng','CHN','88.065'],b:['Nikita Nagornyy','ROC','88.031']},
+  {ev:"Women's individual all-around",g:['Sunisa Lee','USA','57.433'],s:['Rebeca Andrade','BRA','57.298'],b:['Angelina Melnikova','ROC','57.199'],note:'Contested after Simone Biles withdrew citing the twisties and her mental health.'}
+ ],
+ Basketball:[
+  {ev:"Men's tournament",g:['United States','USA','87-82 v France'],s:['France','FRA',''],b:['Australia','AUS','']},
+  {ev:"Women's tournament",g:['United States','USA','90-75 v Japan'],s:['Japan','JPN',''],b:['France','FRA','']}
+ ],
+ Skateboarding:[
+  {ev:"Women's street",g:['Momiji Nishiya','JPN','15.26'],s:['Rayssa Leal','BRA','14.64'],b:['Funa Nakayama','JPN','14.49'],note:'Nishiya and Leal were both 13. Skateboarding\u2019s Olympic debut.'},
+  {ev:"Men's street",g:['Yuto Horigome','JPN','37.18'],s:['Kelvin Hoefler','BRA','36.15'],b:['Jagger Eaton','USA','35.35']}
+ ]
+},
+s2016:{
+ Athletics:[
+  {ev:"Men's 100 m",g:['Usain Bolt','JAM','9.81'],s:['Justin Gatlin','USA','9.89'],b:['Andre De Grasse','CAN','9.91'],note:'A third straight Olympic 100 m title.'},
+  {ev:"Women's 100 m",g:['Elaine Thompson','JAM','10.71'],s:['Tori Bowie','USA','10.83'],b:['Shelly-Ann Fraser-Pryce','JAM','10.86']},
+  {ev:"Men's 200 m",g:['Usain Bolt','JAM','19.78'],s:['Andre De Grasse','CAN','20.02'],b:['Christophe Lema\u00eetre','FRA','20.12']},
+  {ev:"Men's 400 m",g:['Wayde van Niekerk','RSA','43.03'],s:['Kirani James','GRN','43.76'],b:['LaShawn Merritt','USA','43.85'],note:'World record from lane eight, with no one to chase.'},
+  {ev:"Men's marathon",g:['Eliud Kipchoge','KEN','2:08:44'],s:['Feyisa Lilesa','ETH','2:09:54'],b:['Galen Rupp','USA','2:10:05']}
+ ],
+ Swimming:[
+  {ev:"Men's 100 m butterfly",g:['Joseph Schooling','SGP','50.39'],s:['Michael Phelps','USA','51.14'],b:['Chad le Clos','RSA','51.14'],note:'Olympic record, and a three way tie for silver. Singapore\u2019s first Olympic gold.'},
+  {ev:"Men's 200 m individual medley",g:['Michael Phelps','USA','1:54.66'],s:['Kosuke Hagino','JPN','1:56.61'],b:['Wang Shun','CHN','1:57.05']},
+  {ev:"Women's 400 m freestyle",g:['Katie Ledecky','USA','3:56.46'],s:['Jazz Carlin','GBR','4:01.23'],b:['Leah Smith','USA','4:01.92'],note:'World record.'},
+  {ev:"Women's 800 m freestyle",g:['Katie Ledecky','USA','8:04.79'],s:['Jazz Carlin','GBR','8:16.17'],b:['Boglarka Kapas','HUN','8:16.37'],note:'World record by more than eleven seconds.'},
+  {ev:"Women's 100 m butterfly",g:['Sarah Sj\u00f6str\u00f6m','SWE','55.48'],s:['Penny Oleksiak','CAN','56.46'],b:['Dana Vollmer','USA','56.63'],note:'World record.'}
+ ],
+ Gymnastics:[
+  {ev:"Women's individual all-around",g:['Simone Biles','USA','62.198'],s:['Aly Raisman','USA','60.098'],b:['Aliya Mustafina','RUS','58.665']},
+  {ev:"Women's team all-around",g:['United States','USA','184.897'],s:['Russia','RUS','176.688'],b:['China','CHN','176.003']}
+ ]
+},
+s2012:{
+ Athletics:[
+  {ev:"Men's 100 m",g:['Usain Bolt','JAM','9.63'],s:['Yohan Blake','JAM','9.75'],b:['Justin Gatlin','USA','9.79'],note:'Olympic record.'},
+  {ev:"Men's 200 m",g:['Usain Bolt','JAM','19.32'],s:['Yohan Blake','JAM','19.44'],b:['Warren Weir','JAM','19.84']},
+  {ev:"Women's 100 m",g:['Shelly-Ann Fraser-Pryce','JAM','10.75'],s:['Carmelita Jeter','USA','10.78'],b:['Veronica Campbell-Brown','JAM','10.81']},
+  {ev:"Men's 800 m",g:['David Rudisha','KEN','1:40.91'],s:['Nijel Amos','BOT','1:41.73'],b:['Timothy Kitum','KEN','1:42.53'],note:'World record, led from gun to tape with no pacemaker.'},
+  {ev:"Men's 10,000 m",g:['Mo Farah','GBR','27:30.42'],s:['Galen Rupp','USA','27:30.90'],b:['Tariku Bekele','ETH','27:31.43']}
+ ],
+ Swimming:[
+  {ev:"Men's 200 m individual medley",g:['Michael Phelps','USA','1:54.27'],s:['Ryan Lochte','USA','1:54.90'],b:['L\u00e1szl\u00f3 Cseh','HUN','1:56.22']},
+  {ev:"Men's 400 m individual medley",g:['Ryan Lochte','USA','4:05.18'],s:['Thiago Pereira','BRA','4:08.86'],b:['Kosuke Hagino','JPN','4:08.94']},
+  {ev:"Women's 100 m freestyle",g:['Ranomi Kromowidjojo','NED','53.00'],s:['Aliaksandra Herasimenia','BLR','53.38'],b:['Tang Yi','CHN','53.44'],note:'Olympic record.'}
+ ],
+ Gymnastics:[
+  {ev:"Women's individual all-around",g:['Gabrielle Douglas','USA','62.232'],s:['Viktoria Komova','RUS','61.973'],b:['Aliya Mustafina','RUS','59.566']}
+ ]
+},
+s2008:{
+ Athletics:[
+  {ev:"Men's 100 m",g:['Usain Bolt','JAM','9.69'],s:['Richard Thompson','TTO','9.89'],b:['Walter Dix','USA','9.91'],note:'World record set while easing up and thumping his chest before the line.'},
+  {ev:"Men's 200 m",g:['Usain Bolt','JAM','19.30'],s:['Shawn Crawford','USA','19.96'],b:['Walter Dix','USA','19.98'],note:'World record, breaking Michael Johnson\u2019s 1996 mark.'},
+  {ev:"Women's 100 m",g:['Shelly-Ann Fraser','JAM','10.78'],s:['Sherone Simpson','JAM','10.98'],b:['Kerron Stewart','JAM','10.98']}
+ ],
+ Swimming:[
+  {ev:"Men's 100 m butterfly",g:['Michael Phelps','USA','50.58'],s:['Milorad \u010cavi\u0107','SRB','50.59'],b:['Andrew Lauterstein','AUS','51.12'],note:'One hundredth of a second, decided on a photo review of the touch pads.'},
+  {ev:"Men's 200 m freestyle",g:['Michael Phelps','USA','1:42.96'],s:['Park Tae-hwan','KOR','1:44.85'],b:['Peter Vanderkaay','USA','1:45.14'],note:'World record.'},
+  {ev:"Men's 400 m individual medley",g:['Michael Phelps','USA','4:03.84'],s:['L\u00e1szl\u00f3 Cseh','HUN','4:06.16'],b:['Ryan Lochte','USA','4:08.09'],note:'World record, the first of eight golds in eight days.'},
+  {ev:"Men's 4x100 m freestyle relay",g:['United States','USA','3:08.24'],s:['France','FRA','3:08.32'],b:['Australia','AUS','3:09.91'],note:'World record. Jason Lezak ran down Alain Bernard on the anchor leg.'}
+ ],
+ Gymnastics:[
+  {ev:"Men's individual all-around",g:['Yang Wei','CHN','94.575'],s:['K\u014dhei Uchimura','JPN','91.975'],b:['Benoit Caranobe','FRA','91.925']},
+  {ev:"Women's individual all-around",g:['Nastia Liukin','USA','63.325'],s:['Shawn Johnson','USA','62.725'],b:['Yang Yilin','CHN','62.650']}
+ ]
+},
+w2026:{
+ 'Ice hockey':[
+  {ev:"Men's tournament",g:['United States','USA','v Canada'],s:['Canada','CAN',''],note:'The first United States men\u2019s hockey gold since 1980.'},
+  {ev:"Women's tournament",g:['United States','USA','v Canada'],s:['Canada','CAN',''],note:'A third Olympic title, and revenge for the 2022 final.'}
+ ],
+ 'Freestyle skiing':[
+  {ev:"Men's halfpipe",g:['Alex Ferreira','USA','']},
+  {ev:'Mixed team aerials',g:['United States','USA','Curran, Kuhn, Lillis']}
+ ],
+ Snowboard:[
+  {ev:"Women's halfpipe",g:['Gaon Choi','KOR',''],note:'Choi took the title ahead of two time champion Chloe Kim.'}
+ ],
+ 'Short track speed skating':[
+  {ev:"Women's 1500 m",g:['Corinne Stoddard','USA','']}
+ ],
+ Bobsleigh:[
+  {ev:'Two-woman',g:['Kaillie Humphries and Jasmine Jones','USA','']}
+ ],
+ 'Cross-country skiing':[
+  {ev:'Games summary',g:['Johannes H\u00f8sflot Kl\u00e6bo','NOR','6 golds'],note:'Kl\u00e6bo set the record for the most golds won at a single Winter Games.'}
+ ]
+},
+w2022:{
+ 'Figure skating':[
+  {ev:"Men's singles",g:['Nathan Chen','USA','332.60'],s:['Yuma Kagiyama','JPN','310.05'],b:['Shoma Uno','JPN','293.00']},
+  {ev:"Women's singles",g:['Anna Shcherbakova','ROC','255.95'],s:['Alexandra Trusova','ROC','251.73'],b:['Kaori Sakamoto','JPN','233.13']},
+  {ev:'Pairs',g:['Sui Wenjing and Han Cong','CHN','239.88'],s:['Evgenia Tarasova and Vladimir Morozov','ROC','239.25'],b:['Aleksandra Boikova and Dmitrii Kozlovskii','ROC','237.71']},
+  {ev:'Ice dance',g:['Gabriella Papadakis and Guillaume Cizeron','FRA','226.98'],s:['Victoria Sinitsina and Nikita Katsalapov','ROC','220.51'],b:['Madison Hubbell and Zachary Donohue','USA','218.02']}
+ ],
+ 'Alpine skiing':[
+  {ev:"Men's downhill",g:['Beat Feuz','SUI','1:42.69'],s:['Johan Clarey','FRA','1:42.79'],b:['Matthias Mayer','AUT','1:42.85'],note:'Clarey became the oldest alpine medallist at 41.'},
+  {ev:"Men's giant slalom",g:['Marco Odermatt','SUI','2:09.35'],s:['\u017dan Kranjec','SLO','2:09.54'],b:['Mathieu Faivre','FRA','2:10.69']},
+  {ev:"Women's downhill",g:['Corinne Suter','SUI','1:31.87'],s:['Sofia Goggia','ITA','1:32.03'],b:['Nadia Delago','ITA','1:32.20']}
+ ],
+ 'Speed skating':[
+  {ev:"Men's 500 m",g:['Gao Tingyu','CHN','34.32'],s:['Cha Min-kyu','KOR','34.39'],b:['Wataru Morishige','JPN','34.49'],note:'Olympic record.'},
+  {ev:"Men's 1500 m",g:['Kjeld Nuis','NED','1:43.21'],s:['Thomas Krol','NED','1:43.55'],b:['Kim Min-seok','KOR','1:44.24'],note:'Olympic record.'},
+  {ev:"Women's 1000 m",g:['Miho Takagi','JPN','1:13.19'],s:['Jutta Leerdam','NED','1:13.83'],b:['Brittany Bowe','USA','1:14.61'],note:'Olympic record.'},
+  {ev:"Men's mass start",g:['Bart Swings','BEL',''],s:['Chung Jae-won','KOR',''],b:['Lee Seung-hoon','KOR','']}
+ ],
+ Snowboard:[
+  {ev:"Men's halfpipe",g:['Ayumu Hirano','JPN','96.00'],s:['Scotty James','AUS','92.50'],b:['Jan Scherrer','SUI','87.25'],note:'Landed the first triple cork in Olympic halfpipe.'},
+  {ev:"Women's halfpipe",g:['Chloe Kim','USA','94.00'],s:['Queralt Castellet','ESP','90.25'],b:['Sena Tomita','JPN','88.25']},
+  {ev:"Men's big air",g:['Su Yiming','CHN','182.50'],s:['Mons R\u00f8island','NOR','171.75'],b:['Max Parrot','CAN','170.25']}
+ ],
+ 'Ice hockey':[
+  {ev:"Men's tournament",g:['Finland','FIN','2-1 v ROC'],s:['ROC','ROC',''],b:['Slovakia','SVK',''],note:'Finland\u2019s first Olympic hockey gold.'},
+  {ev:"Women's tournament",g:['Canada','CAN','3-2 v United States'],s:['United States','USA',''],b:['Finland','FIN','']}
+ ]
+},
+w2018:{
+ 'Figure skating':[
+  {ev:"Men's singles",g:['Yuzuru Hanyu','JPN','317.85'],s:['Shoma Uno','JPN','306.90'],b:['Javier Fern\u00e1ndez','ESP','305.24'],note:'The first man to defend the Olympic title in 66 years.'},
+  {ev:"Women's singles",g:['Alina Zagitova','OAR','239.57'],s:['Evgenia Medvedeva','OAR','238.26'],b:['Kaetlyn Osmond','CAN','231.02']}
+ ],
+ 'Alpine skiing':[
+  {ev:"Men's downhill",g:['Aksel Lund Svindal','NOR','1:40.25'],s:['Kjetil Jansrud','NOR','1:40.37'],b:['Beat Feuz','SUI','1:40.43']},
+  {ev:"Women's giant slalom",g:['Mikaela Shiffrin','USA','2:20.02'],s:['Ragnhild Mowinckel','NOR','2:20.41'],b:['Federica Brignone','ITA','2:20.48']},
+  {ev:"Women's downhill",g:['Sofia Goggia','ITA','1:39.22'],s:['Ragnhild Mowinckel','NOR','1:39.31'],b:['Lindsey Vonn','USA','1:39.69']}
+ ],
+ 'Speed skating':[
+  {ev:"Women's 500 m",g:['Nao Kodaira','JPN','36.94'],s:['Lee Sang-hwa','KOR','37.33'],b:['Karolina Erbanov\u00e1','CZE','37.34'],note:'Olympic record.'},
+  {ev:"Men's 10,000 m",g:['Ted-Jan Bloemen','CAN','12:39.77'],s:['Jorrit Bergsma','NED','12:41.98'],b:['Nicola Tumolero','ITA','12:54.32'],note:'Olympic record.'}
+ ],
+ 'Ice hockey':[
+  {ev:"Men's tournament",g:['Olympic Athletes from Russia','OAR','4-3 v Germany'],s:['Germany','GER',''],b:['Canada','CAN',''],note:'Played without NHL participation.'},
+  {ev:"Women's tournament",g:['United States','USA','3-2 v Canada'],s:['Canada','CAN',''],b:['Finland','FIN',''],note:'Decided by a shootout, the first US gold in the event since 1998.'}
+ ]
+}
+};
+
+/* ---------------- world records ----------------
+   kind:'wr'   a governing body keeps official world records
+   kind:'none' the sport has no world records, so the tab explains what it tracks instead */
+const RECORDS = {
+Athletics:{kind:'wr',body:'World Athletics',asOf:'August 2026',
+ note:'Marks below are the current outdoor world records unless noted. A ring marks records set at an Olympic Games.',
+ rows:[
+ {ev:"Men's 100 m",mk:'9.58',who:'Usain Bolt',nat:'JAM',at:'Berlin',dt:'16 Aug 2009'},
+ {ev:"Men's 200 m",mk:'19.19',who:'Usain Bolt',nat:'JAM',at:'Berlin',dt:'20 Aug 2009'},
+ {ev:"Men's 400 m",mk:'43.03',who:'Wayde van Niekerk',nat:'RSA',at:'Rio de Janeiro',dt:'14 Aug 2016',oly:1},
+ {ev:"Men's 800 m",mk:'1:40.91',who:'David Rudisha',nat:'KEN',at:'London',dt:'9 Aug 2012',oly:1},
+ {ev:"Men's 1000 m",mk:'2:11.83',who:'Emmanuel Wanyonyi',nat:'KEN',at:'Monaco',dt:'2026',fresh:1},
+ {ev:"Men's 1500 m",mk:'3:26.00',who:'Hicham El Guerrouj',nat:'MAR',at:'Rome',dt:'14 Jul 1998'},
+ {ev:"Men's mile",mk:'3:42.66',who:'Josh Kerr',nat:'GBR',at:'London',dt:'18 Jul 2026',fresh:1},
+ {ev:"Men's 5000 m",mk:'12:35.36',who:'Joshua Cheptegei',nat:'UGA',at:'Monaco',dt:'14 Aug 2020'},
+ {ev:"Men's 10,000 m",mk:'26:11.00',who:'Joshua Cheptegei',nat:'UGA',at:'Valencia',dt:'7 Oct 2020'},
+ {ev:"Men's half marathon",mk:'57:20',who:'Jacob Kiplimo',nat:'UGA',at:'Lisbon',dt:'8 Mar 2026',fresh:1},
+ {ev:"Men's marathon",mk:'1:59:30',who:'Sabastian Sawe',nat:'KEN',at:'London',dt:'26 Apr 2026',fresh:1},
+ {ev:"Men's 110 m hurdles",mk:'12.80',who:'Aries Merritt',nat:'USA',at:'Brussels',dt:'7 Sep 2012'},
+ {ev:"Men's 400 m hurdles",mk:'45.94',who:'Karsten Warholm',nat:'NOR',at:'Tokyo',dt:'3 Aug 2021',oly:1},
+ {ev:"Men's 3000 m steeplechase",mk:'7:52.11',who:'Lamecha Girma',nat:'ETH',at:'Paris',dt:'9 Jun 2023'},
+ {ev:"Men's high jump",mk:'2.45 m',who:'Javier Sotomayor',nat:'CUB',at:'Salamanca',dt:'27 Jul 1993'},
+ {ev:"Men's pole vault",mk:'6.31 m',who:'Armand Duplantis',nat:'SWE',at:'Uppsala',dt:'12 Mar 2026',fresh:1},
+ {ev:"Men's long jump",mk:'8.95 m',who:'Mike Powell',nat:'USA',at:'Tokyo',dt:'30 Aug 1991'},
+ {ev:"Men's triple jump",mk:'18.29 m',who:'Jonathan Edwards',nat:'GBR',at:'Gothenburg',dt:'7 Aug 1995'},
+ {ev:"Men's shot put",mk:'23.56 m',who:'Ryan Crouser',nat:'USA',at:'Los Angeles',dt:'27 May 2023'},
+ {ev:"Men's discus",mk:'74.35 m',who:'Mykolas Alekna',nat:'LTU',at:'Ramona',dt:'14 Apr 2024'},
+ {ev:"Men's hammer",mk:'86.74 m',who:'Yuriy Sedykh',nat:'URS',at:'Stuttgart',dt:'30 Aug 1986'},
+ {ev:"Men's javelin",mk:'98.48 m',who:'Jan \u017delezn\u00fd',nat:'CZE',at:'Jena',dt:'25 May 1996'},
+ {ev:"Men's decathlon",mk:'9126',who:'Kevin Mayer',nat:'FRA',at:'Talence',dt:'16 Sep 2018'},
+ {ev:"Men's 4x100 m relay",mk:'36.84',who:'Jamaica',nat:'JAM',at:'London',dt:'11 Aug 2012',oly:1},
+ {ev:"Men's 4x400 m relay",mk:'2:54.29',who:'United States',nat:'USA',at:'Stuttgart',dt:'22 Aug 1993'},
+ {ev:"Women's 100 m",mk:'10.49',who:'Florence Griffith-Joyner',nat:'USA',at:'Indianapolis',dt:'16 Jul 1988'},
+ {ev:"Women's 200 m",mk:'21.34',who:'Florence Griffith-Joyner',nat:'USA',at:'Seoul',dt:'29 Sep 1988',oly:1},
+ {ev:"Women's 400 m",mk:'47.60',who:'Marita Koch',nat:'GDR',at:'Canberra',dt:'6 Oct 1985'},
+ {ev:"Women's 800 m",mk:'1:53.28',who:'Jarmila Kratochv\u00edlov\u00e1',nat:'TCH',at:'Munich',dt:'26 Jul 1983'},
+ {ev:"Women's 1500 m",mk:'3:49.04',who:'Faith Kipyegon',nat:'KEN',at:'Paris',dt:'7 Jul 2024'},
+ {ev:"Women's mile",mk:'4:07.64',who:'Faith Kipyegon',nat:'KEN',at:'Monaco',dt:'21 Jul 2023'},
+ {ev:"Women's 5000 m",mk:'14:00.21',who:'Gudaf Tsegay',nat:'ETH',at:'Eugene',dt:'17 Sep 2023'},
+ {ev:"Women's 10,000 m",mk:'28:54.14',who:'Beatrice Chebet',nat:'KEN',at:'Eugene',dt:'5 Jul 2025'},
+ {ev:"Women's marathon",mk:'2:09:56',who:'Ruth Chepng\u2019etich',nat:'KEN',at:'Chicago',dt:'13 Oct 2024'},
+ {ev:"Women's marathon (women only)",mk:'2:15:41',who:'Tigst Assefa',nat:'ETH',at:'London',dt:'26 Apr 2026',fresh:1},
+ {ev:"Women's 100 m hurdles",mk:'12.12',who:'Tobi Amusan',nat:'NGR',at:'Eugene',dt:'24 Jul 2022'},
+ {ev:"Women's 400 m hurdles",mk:'50.37',who:'Sydney McLaughlin-Levrone',nat:'USA',at:'Paris',dt:'8 Aug 2024',oly:1},
+ {ev:"Women's high jump",mk:'2.10 m',who:'Yaroslava Mahuchikh',nat:'UKR',at:'Paris',dt:'7 Jul 2024'},
+ {ev:"Women's pole vault",mk:'5.06 m',who:'Yelena Isinbayeva',nat:'RUS',at:'Zurich',dt:'28 Aug 2009'},
+ {ev:"Women's long jump",mk:'7.52 m',who:'Galina Chistyakova',nat:'URS',at:'Leningrad',dt:'11 Jun 1988'},
+ {ev:"Women's triple jump",mk:'15.74 m',who:'Yulimar Rojas',nat:'VEN',at:'Belgrade',dt:'20 Mar 2022'},
+ {ev:"Women's shot put",mk:'22.63 m',who:'Natalya Lisovskaya',nat:'URS',at:'Moscow',dt:'7 Jun 1987'},
+ {ev:"Women's discus",mk:'76.80 m',who:'Gabriele Reinsch',nat:'GDR',at:'Neubrandenburg',dt:'9 Jul 1988'},
+ {ev:"Women's hammer",mk:'82.98 m',who:'Anita W\u0142odarczyk',nat:'POL',at:'Warsaw',dt:'28 Aug 2016'},
+ {ev:"Women's javelin",mk:'72.28 m',who:'Barbora \u0160pot\u00e1kov\u00e1',nat:'CZE',at:'Stuttgart',dt:'13 Sep 2008'},
+ {ev:"Women's heptathlon",mk:'7291',who:'Jackie Joyner-Kersee',nat:'USA',at:'Seoul',dt:'24 Sep 1988',oly:1},
+ {ev:"Women's 4x100 m relay",mk:'40.82',who:'United States',nat:'USA',at:'London',dt:'10 Aug 2012',oly:1},
+ {ev:"Women's 4x400 m relay",mk:'3:15.17',who:'Soviet Union',nat:'URS',at:'Seoul',dt:'1 Oct 1988',oly:1}
+ ]},
+Swimming:{kind:'wr',body:'World Aquatics',asOf:'August 2026',
+ note:'Long course, 50 m pool. Several marks from 2008 and 2009 survive from the banned polyurethane suit era.',
+ rows:[
+ {ev:"Men's 50 m freestyle",mk:'20.88',who:'Cameron McEvoy',nat:'AUS',at:'China Swimming Open',dt:'20 Mar 2026',fresh:1},
+ {ev:"Men's 100 m freestyle",mk:'46.40',who:'Pan Zhanle',nat:'CHN',at:'Paris',dt:'31 Jul 2024',oly:1},
+ {ev:"Men's 200 m freestyle",mk:'1:42.00',who:'Paul Biedermann',nat:'GER',at:'Rome',dt:'28 Jul 2009'},
+ {ev:"Men's 400 m freestyle",mk:'3:39.96',who:'Lukas M\u00e4rtens',nat:'GER',at:'Stockholm',dt:'12 Apr 2025'},
+ {ev:"Men's 800 m freestyle",mk:'7:32.12',who:'Zhang Lin',nat:'CHN',at:'Rome',dt:'29 Jul 2009'},
+ {ev:"Men's 1500 m freestyle",mk:'14:30.67',who:'Bobby Finke',nat:'USA',at:'Paris',dt:'4 Aug 2024',oly:1},
+ {ev:"Men's 50 m backstroke",mk:'23.71',who:'Hunter Armstrong',nat:'USA',at:'Greensboro',dt:'28 Apr 2022'},
+ {ev:"Men's 100 m backstroke",mk:'51.60',who:'Thomas Ceccon',nat:'ITA',at:'Budapest',dt:'20 Jun 2022'},
+ {ev:"Men's 200 m backstroke",mk:'1:51.92',who:'Aaron Peirsol',nat:'USA',at:'Rome',dt:'31 Jul 2009'},
+ {ev:"Men's 100 m breaststroke",mk:'56.88',who:'Adam Peaty',nat:'GBR',at:'Gwangju',dt:'21 Jul 2019'},
+ {ev:"Men's 200 m breaststroke",mk:'2:05.48',who:'Qin Haiyang',nat:'CHN',at:'Fukuoka',dt:'28 Jul 2023'},
+ {ev:"Men's 100 m butterfly",mk:'49.45',who:'Caeleb Dressel',nat:'USA',at:'Tokyo',dt:'31 Jul 2021',oly:1},
+ {ev:"Men's 200 m butterfly",mk:'1:50.34',who:'Krist\u00f3f Mil\u00e1k',nat:'HUN',at:'Budapest',dt:'23 Jun 2022'},
+ {ev:"Men's 200 m individual medley",mk:'1:52.69',who:'L\u00e9on Marchand',nat:'FRA',at:'Singapore',dt:'2025'},
+ {ev:"Men's 400 m individual medley",mk:'4:02.50',who:'L\u00e9on Marchand',nat:'FRA',at:'Fukuoka',dt:'23 Jul 2023'},
+ {ev:"Men's 4x100 m freestyle relay",mk:'3:08.24',who:'United States',nat:'USA',at:'Beijing',dt:'11 Aug 2008',oly:1},
+ {ev:"Women's 50 m freestyle",mk:'23.61',who:'Sarah Sj\u00f6str\u00f6m',nat:'SWE',at:'Budapest',dt:'29 Jul 2017'},
+ {ev:"Women's 100 m freestyle",mk:'51.71',who:'Sarah Sj\u00f6str\u00f6m',nat:'SWE',at:'Budapest',dt:'23 Jul 2017'},
+ {ev:"Women's 200 m freestyle",mk:'1:52.23',who:"Mollie O'Callaghan",nat:'AUS',at:'Fukuoka',dt:'26 Jul 2023'},
+ {ev:"Women's 400 m freestyle",mk:'3:54.18',who:'Summer McIntosh',nat:'CAN',at:'Victoria',dt:'2025'},
+ {ev:"Women's 800 m freestyle",mk:'8:04.12',who:'Katie Ledecky',nat:'USA',at:'Fort Lauderdale',dt:'2025'},
+ {ev:"Women's 1500 m freestyle",mk:'15:20.48',who:'Katie Ledecky',nat:'USA',at:'Indianapolis',dt:'16 May 2018'},
+ {ev:"Women's 100 m backstroke",mk:'57.13',who:'Regan Smith',nat:'USA',at:'Indianapolis',dt:'2024'},
+ {ev:"Women's 200 m backstroke",mk:'2:03.14',who:'Kaylee McKeown',nat:'AUS',at:'Sydney',dt:'2023'},
+ {ev:"Women's 100 m breaststroke",mk:'1:04.13',who:'Lilly King',nat:'USA',at:'Budapest',dt:'25 Jul 2017'},
+ {ev:"Women's 200 m breaststroke",mk:'2:17.55',who:'Evgenia Chikunova',nat:'RUS',at:'Kazan',dt:'21 Apr 2023'},
+ {ev:"Women's 100 m butterfly",mk:'55.48',who:'Sarah Sj\u00f6str\u00f6m',nat:'SWE',at:'Rio de Janeiro',dt:'7 Aug 2016',oly:1},
+ {ev:"Women's 200 m butterfly",mk:'2:01.81',who:'Liu Zige',nat:'CHN',at:'Jinan',dt:'21 Oct 2009'},
+ {ev:"Women's 200 m individual medley",mk:'2:06.12',who:'Summer McIntosh',nat:'CAN',at:'Victoria',dt:'2025'},
+ {ev:"Women's 400 m individual medley",mk:'4:23.65',who:'Summer McIntosh',nat:'CAN',at:'Victoria',dt:'2025'}
+ ]},
+Gymnastics:{kind:'none',body:'F\u00e9d\u00e9ration Internationale de Gymnastique',
+ text:'Artistic gymnastics has no world records. Scores depend on the code of points, which is rewritten after every Olympic cycle, so a 15.8 in 2008 and a 15.8 in 2024 are not the same performance. What the sport tracks instead is difficulty: a skill enters the code named after the first gymnast to land it in competition. Simone Biles has five, more than any other gymnast. Nadia Com\u0103neci\u2019s perfect 10 at Montreal 1976 is the sport\u2019s most famous mark, and it became impossible in 2006 when the 10.0 ceiling was removed.'},
+Basketball:{kind:'none',body:'FIBA',
+ text:'No world records. The United States men have won 17 of the 20 Olympic tournaments they have entered, including every one since 2008. The United States women have won every tournament since 1996, a streak of eight golds. The largest single game margin in the Olympic era belongs to the 1992 Dream Team, who beat every opponent by at least 32 points.'},
+Football:{kind:'none',body:'FIFA',
+ text:'No world records. Hungary and Great Britain share the men\u2019s record with three golds each, though Britain\u2019s came before 1912. The United States women have won five of the eight tournaments since the event was added in 1996. Men\u2019s squads have been limited to under 23 players plus three overage since 1992, which is why the Olympic tournament sits apart from the World Cup.'},
+Tennis:{kind:'none',body:'International Tennis Federation',
+ text:'No world records. The rarest achievement in the sport is the Golden Slam, all four majors plus Olympic gold in the same year, done once by Steffi Graf in 1988. Andre Agassi, Rafael Nadal, Serena Williams and Novak Djokovic all hold career Golden Slams. Tennis left the Olympic programme after 1924 and did not return as a full medal sport until Seoul 1988.'},
+'Track cycling':{kind:'wr',body:'Union Cycliste Internationale',asOf:'August 2026',
+ note:'Track records depend heavily on altitude and velodrome surface, so many are set at the same handful of venues.',
+ rows:[
+ {ev:'Hour record (men)',mk:'56.792 km',who:'Filippo Ganna',nat:'ITA',at:'Grenchen',dt:'8 Oct 2022'},
+ {ev:'Hour record (women)',mk:'50.267 km',who:'Vittoria Bussi',nat:'ITA',at:'Aguascalientes',dt:'20 Oct 2023'},
+ {ev:"Men's team pursuit",mk:'3:40.730',who:'Australia',nat:'AUS',at:'Paris',dt:'6 Aug 2024',oly:1},
+ {ev:"Women's team pursuit",mk:'4:04.306',who:'United States',nat:'USA',at:'Paris',dt:'7 Aug 2024',oly:1}
+ ]},
+Skateboarding:{kind:'none',body:'World Skate',
+ text:'No world records. Runs are scored by judges out of 100 for street and park, so the number only means something inside a single contest. What the Olympics did change is the age curve: the Tokyo 2020 women\u2019s street podium averaged 14 years old, the youngest in modern Olympic history.'},
+'Figure skating':{kind:'none',body:'International Skating Union',
+ text:'No world records, but the ISU keeps a list of best scores under the current judging system. Those scores reset whenever the rules change, most recently in 2018 when the grade of execution scale was widened, so pre-2018 and post-2018 totals are not comparable. The quadruple axel, four and a half rotations, was landed in competition for the first time by Ilia Malinin in 2022.'},
+'Alpine skiing':{kind:'none',body:'F\u00e9d\u00e9ration Internationale de Ski',
+ text:'No world records. Every course has its own length, pitch and snow, so times only compare within one race. The sport tracks World Cup wins instead: Mikaela Shiffrin passed 100 in 2025, more than any skier in history. Speed trap records are a separate discipline, speed skiing, where Simone Origone has been clocked above 250 km/h.'},
+'Speed skating':{kind:'wr',body:'International Skating Union',asOf:'August 2026',
+ note:'Almost every long track record was set at altitude in Salt Lake City or Calgary, where thinner air cuts drag.',
+ rows:[
+ {ev:"Men's 500 m",mk:'33.61',who:'Pavel Kulizhnikov',nat:'RUS',at:'Salt Lake City',dt:'9 Mar 2019'},
+ {ev:"Men's 5000 m",mk:'6:01.56',who:'Graeme Fish',nat:'CAN',at:'Salt Lake City',dt:'14 Feb 2020'},
+ {ev:"Women's 500 m",mk:'36.36',who:'Lee Sang-hwa',nat:'KOR',at:'Salt Lake City',dt:'16 Nov 2013'},
+ {ev:"Women's 3000 m",mk:'3:52.02',who:'Miho Takagi',nat:'JPN',at:'Salt Lake City',dt:'12 Mar 2023'}
+ ]},
+'Ice hockey':{kind:'none',body:'International Ice Hockey Federation',
+ text:'No world records. Canada leads the men\u2019s tournament with ten golds and Canada leads the women\u2019s with five. The single result the sport keeps coming back to is Lake Placid 1980, where a United States college team beat a Soviet side that had won every Olympic title since 1964.'},
+'Cross-country skiing':{kind:'none',body:'F\u00e9d\u00e9ration Internationale de Ski',
+ text:'No world records, because course profiles and snow conditions differ every time. The Olympic benchmark is total medals: Marit Bj\u00f8rgen finished with 15, the most by any Winter Olympian, and Johannes H\u00f8sflot Kl\u00e6bo set the single Games record with six golds at Milan Cortina 2026.'},
+Snowboard:{kind:'none',body:'F\u00e9d\u00e9ration Internationale de Ski',
+ text:'No world records. Halfpipe and slopestyle are judged out of 100, and big air is scored on two or three counting runs. Progression is tracked by trick instead: Ayumu Hirano landed the first triple cork in Olympic halfpipe at Beijing 2022, and Anna Gasser was the first woman to land a cab double cork 1080 in competition.'},
+Bobsleigh:{kind:'none',body:'International Bobsleigh and Skeleton Federation',
+ text:'No world records. Each track has its own start and track records, since a run down Whistler and a run down Cortina are completely different problems. Start times are the closest thing to a comparable measure, and the sport is decided by hundredths across four heats.'},
+'Freestyle skiing':{kind:'none',body:'F\u00e9d\u00e9ration Internationale de Ski',
+ text:'No world records. Moguls, aerials, halfpipe, slopestyle and big air are all judged. Aerials scoring multiplies a degree of difficulty by the judges\u2019 marks, so the ceiling rises whenever someone adds a rotation, which is how quintuple twisting triple flips entered the sport.'},
+'Short track speed skating':{kind:'wr',body:'International Skating Union',asOf:'August 2026',
+ note:'Short track records fall often because the sport is tactical and world record attempts usually happen in time trials or fast heats.',
+ rows:[
+ {ev:"Men's 500 m",mk:'39.505',who:'Wu Dajing',nat:'CHN',at:'PyeongChang',dt:'22 Feb 2018',oly:1},
+ {ev:"Women's 500 m",mk:'41.936',who:'Kim Boutin',nat:'CAN',at:'Salt Lake City',dt:'3 Nov 2019'}
+ ]}
+};
+</script>
+<script src="https://unpkg.com/globe.gl"></script>
+<script>
+/* ============================================================
+   HOST. app
+   ============================================================ */
+const $ = s => document.querySelector(s);
+const el = (t,c) => { const n=document.createElement(t); if(c) n.className=c; return n; };
+const flag = c => FLAG[c] || '';
+const num = n => n==null ? '\u2014' : n.toLocaleString('en-US');
+
+const REAL = GAMES.filter(g => g.s==='S' || g.s==='W');
+const YEAR_MIN = 1896, YEAR_MAX = 2034;
+
+const state = { season:'ALL', id:null, lastId:'s2024', tab:'sports', sport:null, relay:true, spin:true, playing:false, wide:false };
+
+/* ---------- derived ---------- */
+const byId = Object.fromEntries(GAMES.map(g=>[g.id,g]));
+const hostCountries = {};
+REAL.forEach(g=>{ (hostCountries[g.country] = hostCountries[g.country] || {name:g.country,cont:g.cont,ioc:g.ioc,n:0,games:[]}); hostCountries[g.country].n++; hostCountries[g.country].games.push(g.id); });
+const hostNames = new Set(Object.keys(hostCountries));
+
+/* one point per city, carrying all its Games */
+const cities = {};
+GAMES.filter(g=>g.s!=='X').forEach(g=>{
+  const k = g.city + '|' + g.country;
+  if(!cities[k]) cities[k] = {city:g.city,country:g.country,cont:g.cont,lat:g.lat,lng:g.lng,games:[]};
+  cities[k].games.push(g);
+});
+const CITY_POINTS = Object.values(cities);
+
+/* chronological relay chain */
+const chain = REAL.slice().sort((a,b)=> a.y-b.y || (a.s==='W'?-1:1));
+const ARCS = chain.slice(0,-1).map((g,i)=>({
+  startLat:g.lat,startLng:g.lng,endLat:chain[i+1].lat,endLng:chain[i+1].lng,
+  color:[g.s==='W'?'rgba(120,180,255,0.30)':'rgba(255,122,60,0.30)', chain[i+1].s==='W'?'rgba(120,180,255,0.30)':'rgba(255,122,60,0.30)']
+}));
+
+/* ---------- stars ---------- */
+(function stars(){
+  const layer = el('div');
+  layer.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:0';
+  const dot = el('div');
+  dot.style.cssText='position:absolute;width:1px;height:1px;border-radius:50%;background:transparent';
+  let sh=[];
+  for(let i=0;i<170;i++){
+    const x=(Math.random()*100).toFixed(2), y=(Math.random()*100).toFixed(2);
+    const o=(0.15+Math.random()*0.5).toFixed(2), s=Math.random()>0.9?1.6:1;
+    sh.push(`${x}vw ${y}vh 0 ${s}px rgba(200,220,255,${o})`);
+  }
+  dot.style.boxShadow = sh.join(',');
+  layer.appendChild(dot); document.body.insertBefore(layer, document.body.firstChild);
+})();
+
+/* ---------- globe ---------- */
+let globe, polyReady=false;
+function initGlobe(){
+  globe = Globe()(document.getElementById('globe'))
+    .backgroundColor('rgba(0,0,0,0)')
+    .showAtmosphere(true)
+    .atmosphereColor('#3d74dd')
+    .atmosphereAltitude(0.24)
+    .pointOfView({lat:25,lng:5,altitude:2.4})
+    .pointsData([]).pointAltitude('alt').pointRadius('r').pointColor('color').pointsMerge(false).pointResolution(14)
+    .ringsData([]).ringColor(d=>d.color).ringMaxRadius('maxR').ringPropagationSpeed('speed').ringRepeatPeriod('period')
+    .arcsData([]).arcColor('color').arcStroke(0.35).arcDashLength(0.35).arcDashGap(1.2)
+    .arcDashAnimateTime(4200).arcAltitudeAutoScale(0.42)
+    .onPolygonClick(p => { const n = cname(p); if(hostCountries[n]) openLatest(hostCountries[n].games); })
+    .onPointClick(d => { const g = pickGame(d.games); if(g) select(g.id); })
+    .onPointHover(d => showTip(d));
+
+  const mat = globe.globeMaterial();
+  mat.color.set('#070C18'); mat.emissive.set('#050810'); mat.shininess = 4;
+  globe.controls().autoRotate = true;
+  globe.controls().autoRotateSpeed = 0.32;
+  globe.controls().enableDamping = true;
+  globe.controls().minDistance = 130;
+
+  addEventListener('resize', ()=>{ globe.width(innerWidth).height(innerHeight); });
+  globe.width(innerWidth).height(innerHeight);
+
+  fetch('https://unpkg.com/three-globe/example/country-polygons/ne_110m_admin_0_countries.geojson')
+    .then(r=>r.json())
+    .then(geo=>{
+      globe.polygonsData(geo.features)
+        .polygonAltitude(f => hostNames.has(cname(f)) ? 0.014 : 0.006)
+        .polygonCapColor(f => capColor(f))
+        .polygonSideColor(f => hostNames.has(cname(f)) ? 'rgba(255,140,80,0.18)' : 'rgba(60,80,120,0.10)')
+        .polygonStrokeColor(f => hostNames.has(cname(f)) ? 'rgba(255,190,150,0.55)' : 'rgba(120,150,200,0.18)')
+        .polygonsTransitionDuration(600);
+      polyReady = true;
+      finishLoad();
+    })
+    .catch(()=>{ finishLoad(); $('#loadMsg').textContent = 'Map outlines unavailable, points still live'; });
+
+  refreshGlobe();
+}
+function cname(f){ const p=f.properties||{}; return p.ADMIN || p.admin || p.NAME || p.name || ''; }
+function capColor(f){
+  const n = cname(f);
+  const h = hostCountries[n];
+  if(!h) return 'rgba(22,32,54,0.62)';
+  const sel = state.id && byId[state.id] && byId[state.id].country === n;
+  if(sel) return 'rgba(255,255,255,0.92)';
+  const base = CONTINENT[h.cont] || '#2F6BD8';
+  const a = Math.min(0.30 + h.n*0.09, 0.85);
+  return hexA(base, a);
+}
+function hexA(hex,a){
+  const b = parseInt(hex.slice(1),16);
+  return `rgba(${b>>16&255},${b>>8&255},${b&255},${a})`;
+}
+function visible(g){ return state.season==='ALL' || g.s===state.season || g.s==='F' || g.s==='X'; }
+
+function refreshGlobe(){
+  if(!globe) return;
+  const pts = CITY_POINTS.map(c=>{
+    const gs = c.games.filter(g=> state.season==='ALL' || g.s===state.season);
+    if(!gs.length) return null;
+    const isSel = state.id && gs.some(g=>g.id===state.id);
+    const future = gs.every(g=>g.s==='F');
+    return {...c, games:gs, alt:0.016, r:0.28+Math.min(gs.length,4)*0.13,
+      color: isSel ? '#FFFFFF' : future ? 'rgba(150,170,210,0.65)' : gs.some(g=>g.s==='W') && !gs.some(g=>g.s==='S') ? '#8FC2FF' : '#F0C25A'};
+  }).filter(Boolean);
+  globe.pointsData(pts);
+
+  const g = state.id ? byId[state.id] : null;
+  globe.ringsData(g ? [{lat:g.lat,lng:g.lng,color:t=>`rgba(255,106,43,${1-t})`,maxR:7,speed:1.6,period:1100}] : []);
+  globe.arcsData(state.relay ? ARCS.filter(()=>true) : []);
+  if(polyReady) globe.polygonCapColor(f=>capColor(f));
+}
+
+function showTip(d){
+  const tip = $('#tip');
+  if(!d){ tip.style.opacity=0; return; }
+  const yrs = d.games.map(g=>g.y + (g.s==='W'?'W':g.s==='F'?'\u2192':'')).join('  ');
+  tip.innerHTML = `<b>${d.city}</b><br><span class="mono" style="color:var(--flame);font-size:10px">${yrs}</span>`;
+  tip.style.opacity=1;
+}
+addEventListener('mousemove', e=>{ const t=$('#tip'); t.style.left=e.clientX+'px'; t.style.top=e.clientY+'px'; });
+
+function pickGame(gs){
+  const inSeason = gs.filter(g=> state.season==='ALL' || g.s===state.season);
+  const pool = (inSeason.length?inSeason:gs).filter(g=>g.s!=='X');
+  const past = pool.filter(g=>g.s!=='F');
+  return (past.length? past : pool).slice(-1)[0];
+}
+function openLatest(ids){ const gs = ids.map(i=>byId[i]); const g = pickGame(gs); if(g) select(g.id); }
+
+/* ---------- timeline ---------- */
+function buildTimeline(){
+  const track = $('#track');
+  [...track.querySelectorAll('.tick,.decade')].forEach(n=>n.remove());
+  GAMES.forEach(g=>{
+    const t = el('button','tick ' + (g.s==='S'?'summer':g.s==='W'?'winter':g.s==='X'?'cancel':'future'));
+    t.style.left = pct(g.y)+'%';
+    t.style.top = (g.s==='W'||g.s==='X'?'6px':'26px');
+    t.dataset.id = g.id;
+    t.setAttribute('aria-label', g.y+' '+g.city);
+    const stem = el('div','stem');
+    stem.style.height = (g.s==='X'?'8px':g.s==='F'?'12px':'20px');
+    t.appendChild(stem);
+    t.addEventListener('click', e=>{ e.stopPropagation(); select(g.id); });
+    t.addEventListener('mouseenter', ()=>{ const tip=$('#tip'); tip.innerHTML=`<b>${g.y} ${g.city}</b>`; tip.style.opacity=1; });
+    t.addEventListener('mouseleave', ()=>{ $('#tip').style.opacity=0; });
+    track.appendChild(t);
+  });
+  for(let y=1900;y<=2030;y+=20){
+    const d = el('div','decade'); d.textContent = y; d.style.left = pct(y)+'%'; track.appendChild(d);
+  }
+  track.addEventListener('click', e=>{
+    const rect = track.getBoundingClientRect();
+    const y = YEAR_MIN + ((e.clientX-rect.left)/rect.width)*(YEAR_MAX-YEAR_MIN);
+    let best=null,bd=1e9;
+    GAMES.forEach(g=>{ if(!visible(g)) return; const d=Math.abs(g.y-y); if(d<bd){bd=d;best=g;} });
+    if(best) select(best.id);
+  });
+}
+const pct = y => ((y-YEAR_MIN)/(YEAR_MAX-YEAR_MIN))*100;
+
+function syncTimeline(){
+  document.querySelectorAll('.tick').forEach(t=>{
+    const g = byId[t.dataset.id];
+    t.classList.toggle('on', t.dataset.id===state.id);
+    t.style.opacity = visible(g) ? 1 : 0.22;
+  });
+  const g = state.id ? byId[state.id] : null;
+  $('#yearOut').firstChild.nodeValue = g ? g.y : '1896';
+  $('#yearSub').textContent = g ? (g.city.toUpperCase() + (g.s==='W'?' \u00b7 WINTER':g.s==='F'?' \u00b7 UPCOMING':'')) : 'PICK A GAMES';
+}
+
+/* ---------- rail ---------- */
+function renderResults(q){
+  const box = $('#results'); box.innerHTML='';
+  const term = (q||'').trim().toLowerCase();
+  const list = GAMES.filter(g=>visible(g)).filter(g=>!term ||
+    g.city.toLowerCase().includes(term) || g.country.toLowerCase().includes(term) || String(g.y).includes(term))
+    .sort((a,b)=>b.y-a.y);
+  if(!list.length){ const p=el('p','hint'); p.textContent='No Games match that. Try a city, a country or a year.'; box.appendChild(p); return; }
+  list.slice(0,60).forEach(g=>{
+    const b = el('button','res');
+    b.innerHTML = `<span class="yr">${g.y}</span><span class="ct">${g.city}</span><span class="sn">${g.s==='S'?'SUM':g.s==='W'?'WIN':g.s==='X'?'\u2715':'SOON'}</span>`;
+    b.onclick = ()=>select(g.id);
+    box.appendChild(b);
+  });
+}
+function renderRank(){
+  const box = $('#hostRank'); box.innerHTML='';
+  const list = Object.values(hostCountries).sort((a,b)=>b.n-a.n).slice(0,10);
+  const max = list[0].n;
+  list.forEach((h,i)=>{
+    const b = el('button','rank');
+    b.innerHTML = `<span class="n">${i+1}</span><span class="nm">${flag(h.ioc)} ${h.name.replace('United States of America','United States').replace('United Kingdom','Great Britain')}</span>
+      <span class="bar" style="width:${18+ (h.n/max)*46}px;background:${CONTINENT[h.cont]}"></span><span class="ct">${h.n}</span>`;
+    b.onclick = ()=>openLatest(h.games);
+    box.appendChild(b);
+  });
+}
+
+/* ---------- detail panel ---------- */
+function select(id){
+  state.id = id; state.lastId = id; state.sport = null;
+  const g = byId[id];
+  if(g.s==='X'){ state.tab='sports'; }
+  $('#detail').classList.remove('hidden');
+  $('#detailToggle').classList.remove('show');
+
+  // On narrow screens the controls and detail are sheets; only keep one open at a time.
+  if(innerWidth<=820){
+    const rail=$('#rail'), rt=$('#railToggle');
+    rail.classList.add('hidden');
+    rt.classList.add('tucked');
+    rt.innerHTML='&#8250;';
+    rt.setAttribute('aria-label','Show controls');
+    rt.title='Show controls';
+  }
+
+  globe.pointOfView({lat:g.lat, lng:g.lng, altitude:1.75}, 1100);
+  refreshGlobe(); syncTimeline(); renderDetail();
+}
+function closeDetail(){
+  if(state.id) state.lastId = state.id;
+  state.id=null;
+  $('#detail').classList.add('hidden');
+  $('#detailToggle').classList.add('show');
+  refreshGlobe(); syncTimeline();
+}
+
+
+function setDetailBrand(g){
+  const brandEl = $('#dBrand');
+  const flag = FLAG[g.ioc] || '🏳️';
+  brandEl.className = 'dbrand flag';
+  brandEl.innerHTML = `<span aria-hidden="true">${flag}</span>`;
+  brandEl.setAttribute('aria-label', `${g.country} flag`);
+  brandEl.setAttribute('title', `${g.country} flag`);
+}
+
+function renderDetail(){
+
+
+  const g = byId[state.id]; if(!g) return;
+  const winter = g.s==='W' || (g.s==='F' && g.ed.includes('Winter'));
+  $('#dTag').innerHTML = `<i class="dot" style="background:${winter?'#8FC2FF':'var(--flame)'}"></i>${winter?'WINTER':g.s==='X'?'NEVER HELD':'SUMMER'} \u00b7 ${g.ed.toUpperCase()}`;
+  $('#dCity').textContent = g.city;
+  $('#dWhere').textContent = `${g.country.replace('United States of America','United States')} \u00b7 ${g.dates}`;
+  setDetailBrand(g);
+
+  const tiles = $('#dTiles'); tiles.innerHTML='';
+  [['Nations',num(g.nocs)],['Athletes',num(g.ath)],['Events',num(g.ev)],['Sports',num(g.sp)]].forEach(([k,v])=>{
+    const t = el('div','tile'); t.innerHTML=`<div class="v">${v}</div><div class="k">${k}</div>`; tiles.appendChild(t);
+  });
+
+  document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected', b.dataset.tab===state.tab));
+  const body = $('#dBody'); body.innerHTML='';
+
+  if(g.s==='X' || g.s==='F'){
+    const n = el('div','notice'); n.textContent = g.note; body.appendChild(n);
+    if(g.s==='F'){ const p=el('p','empty'); p.textContent='Results appear here once the Games have been held.'; body.appendChild(p); }
+    return;
+  }
+  if(state.tab==='sports') renderSports(g, body);
+  if(state.tab==='medals') renderMedals(g, body);
+  if(state.tab==='records') renderRecords(g, body);
+}
+
+function sportsFor(g){ return Object.keys(RESULTS[g.id] || {}); }
+
+function sportChips(g, body){
+  const list = sportsFor(g);
+  const wrap = el('div','chips');
+  list.forEach(s=>{
+    const c = el('button','chip'); c.textContent = s;
+    c.setAttribute('aria-pressed', state.sport===s);
+    c.onclick = ()=>{ state.sport = state.sport===s ? null : s; renderDetail(); };
+    wrap.appendChild(c);
+  });
+  body.appendChild(wrap);
+  return list;
+}
+
+function renderSports(g, body){
+  const list = sportChips(g, body);
+  if(!list.length){
+    const n = el('div','notice');
+    n.textContent = `${g.city} ${g.y} ran ${num(g.ev)} events across ${num(g.sp)} sports. Event by event podiums are not indexed for this Games yet, but the medal table and the world records are.`;
+    body.appendChild(n);
+    if(g.note){ const p=el('p','empty'); p.textContent=g.note; body.appendChild(p); }
+    return;
+  }
+  if(!state.sport){
+    const n = el('div','notice'); n.textContent = g.note || 'Pick a sport to see its podiums.'; body.appendChild(n);
+    const p = el('p','empty');
+    p.textContent = `Podiums indexed for ${list.length} ${list.length===1?'sport':'sports'} at these Games. Pick one above.`;
+    body.appendChild(p);
+    return;
+  }
+  const events = RESULTS[g.id][state.sport] || [];
+  events.forEach(e=>{
+    const box = el('div','event');
+    // Keep a dedicated note row for every event so podium tables line up across columns.
+    box.innerHTML = `<div class="en">${e.ev}</div><div class="note event-note${e.note?'':' empty-note'}">${e.note || '&nbsp;'}</div>`;
+    const pod = el('div','podium');
+    [['g',e.g],['s',e.s],['b',e.b]].forEach(([k,m])=>{
+      if(!m) return;
+      const row = el('div','slot '+k);
+      row.innerHTML = `<i class="m"></i><div class="who">${flag(m[1])} ${m[0]}<span>${m[1]}</span></div><div class="mark">${m[2]||''}</div>`;
+      pod.appendChild(row);
+    });
+    if(!e.s && !e.b){ const note=el('div','note'); note.textContent='Silver and bronze not indexed for this event.'; box.appendChild(note); }
+    box.appendChild(pod); body.appendChild(box);
+  });
+}
+
+function renderMedals(g, body){
+  if(!g.medals){ const p=el('p','empty'); p.textContent='No medal table on file for this Games.'; body.appendChild(p); return; }
+  const max = Math.max(...g.medals.map(m=>m[1]+m[2]+m[3]));
+  const table = el('table','mt');
+  table.innerHTML = `<thead><tr><th>Nation</th><th></th><th class="num" style="text-align:right">G</th><th class="num" style="text-align:right">S</th><th class="num" style="text-align:right">B</th><th class="num" style="text-align:right">Tot</th></tr></thead>`;
+  const tb = el('tbody');
+  g.medals.forEach(m=>{
+    const [c,gd,sv,bz] = m, tot = gd+sv+bz;
+    const tr = el('tr'); if(c===g.ioc) tr.className='host';
+    tr.innerHTML = `<td>${flag(c)} ${c}</td>
+      <td><div class="mtbar"><i style="background:var(--gold);width:${gd/max*100}%"></i><i style="background:var(--silver);width:${sv/max*100}%"></i><i style="background:var(--bronze);width:${bz/max*100}%"></i></div></td>
+      <td class="num">${gd}</td><td class="num">${sv}</td><td class="num">${bz}</td><td class="num" style="color:var(--text)">${tot}</td>`;
+    tb.appendChild(tr);
+  });
+  table.appendChild(tb); body.appendChild(table);
+  const p = el('p','empty');
+  p.innerHTML = g.ioc && g.medals.some(m=>m[0]===g.ioc)
+    ? `The host nation is highlighted. Totals follow the IOC record and can shift when medals are reallocated after doping cases.`
+    : `The host nation did not finish in the top few. Totals follow the IOC record and can shift when medals are reallocated after doping cases.`;
+  body.appendChild(p);
+}
+
+function renderRecords(g, body){
+  const list = sportChips(g, body);
+  if(!state.sport){
+    const n = el('div','notice');
+    n.textContent = 'Every sport handles records differently. Pick one above to see either its current world records or, where the sport keeps none, what it measures instead.';
+    body.appendChild(n);
+    if(!list.length){ const p=el('p','empty'); p.textContent='No sports indexed for this Games. Try Paris 2024, Tokyo 2020 or Beijing 2022.'; body.appendChild(p); }
+    return;
+  }
+  const rec = RECORDS[state.sport];
+  if(!rec){ const p=el('p','empty'); p.textContent='No record file for this sport yet.'; body.appendChild(p); return; }
+
+  const head = el('div','notice');
+  head.innerHTML = rec.kind==='wr'
+    ? `<b>${rec.body}</b> keeps official world records for ${state.sport.toLowerCase()}. ${rec.note} Current as of ${rec.asOf}.`
+    : `<b>${rec.body}</b> keeps no world records for ${state.sport.toLowerCase()}. ${rec.text}`;
+  body.appendChild(head);
+  if(rec.kind!=='wr') return;
+
+  const wrap = el('div','reclist'); wrap.style.marginTop='14px';
+  rec.rows.forEach(r=>{
+    const row = el('div','rec' + (r.fresh?' fresh':''));
+    const here = r.oly && r.at && r.at.toLowerCase().includes(g.city.toLowerCase().split(' ')[0]) && String(r.dt).includes(String(g.y));
+    row.innerHTML = `<div><div class="ev">${r.ev}${r.oly?'<span class="olyflag mono">OLYMPIC</span>':''}${here?'<span class="olyflag mono" style="border-color:var(--flame);color:var(--flame)">SET HERE</span>':''}</div>
+      <div class="holder">${flag(r.nat)} ${r.who} \u00b7 ${r.at}</div></div>
+      <div><div class="mk">${r.mk}</div><div class="dt">${r.dt}</div></div>`;
+    wrap.appendChild(row);
+  });
+  body.appendChild(wrap);
+  const p = el('p','empty');
+  p.textContent = 'Marks tinted gold were set in 2026. Records labelled OLYMPIC were set at a Games rather than at a standalone meet.';
+  body.appendChild(p);
+}
+
+/* ---------- controls ---------- */
+$('#seasonSeg').addEventListener('click', e=>{
+  const b = e.target.closest('button'); if(!b) return;
+  state.season = b.dataset.season;
+  [...e.currentTarget.children].forEach(c=>c.setAttribute('aria-pressed', c===b));
+  refreshGlobe(); syncTimeline(); renderResults($('#search').value);
+});
+$('#search').addEventListener('input', e=>renderResults(e.target.value));
+$('#dClose').onclick = closeDetail;
+$('#detailToggle').onclick = ()=>select(state.lastId || 's2024');
+const ICON_EXPAND = '<svg viewBox="0 0 24 24"><path d="M9 3H3v6M3 3l7 7M15 21h6v-6M21 21l-7-7"/></svg>';
+const ICON_SHRINK = '<svg viewBox="0 0 24 24"><path d="M3 9h6V3M10 10 3 3M21 15h-6v6M14 14l7 7"/></svg>';
+$('#dWide').onclick = ()=>{
+  state.wide = !state.wide;
+  const b = $('#dWide'), d = $('#detail');
+  d.classList.toggle('wide', state.wide);
+  b.classList.toggle('on', state.wide);
+  b.setAttribute('aria-pressed', state.wide);
+  b.setAttribute('aria-label', state.wide ? 'Shrink the panel' : 'Expand the panel');
+  b.title = state.wide ? 'Shrink' : 'Expand';
+  b.innerHTML = state.wide ? ICON_SHRINK : ICON_EXPAND;
+};
+document.querySelectorAll('.tabs button').forEach(b=>{
+  b.onclick = ()=>{ state.tab = b.dataset.tab; renderDetail(); };
+});
+function bindToggle(sel, key, fn){
+  const b = $(sel);
+  b.onclick = ()=>{
+    state[key] = !state[key];
+    b.setAttribute('aria-pressed', state[key]);
+    b.querySelector('.switch').setAttribute('aria-pressed', state[key]);
+    fn(state[key]);
+  };
+}
+bindToggle('#tRelay','relay', ()=>refreshGlobe());
+bindToggle('#tSpin','spin', v=>{ globe.controls().autoRotate = v; });
+$('#railToggle').onclick = e=>{
+  const rail = $('#rail');
+  rail.classList.toggle('hidden');
+  const hidden = rail.classList.contains('hidden');
+
+  // Opening the controls on mobile closes the detail sheet so the two never overlap.
+  if(!hidden && innerWidth<=820 && !$('#detail').classList.contains('hidden')) closeDetail();
+
+  e.currentTarget.classList.toggle('tucked', hidden);
+  e.currentTarget.innerHTML = hidden ? '&#8250;' : '&#8249;';
+  e.currentTarget.setAttribute('aria-label', hidden ? 'Show controls' : 'Hide controls');
+  e.currentTarget.title = hidden ? 'Show controls' : 'Hide controls';
+};
+
+/* keep panels clear of the masthead and top-right countdown */
+function syncResponsiveLayout(){
+  const root = document.documentElement;
+  const mast = $('#masthead');
+  const countdown = $('#countdown');
+  if(!mast) return;
+
+  const mastBottom = mast.getBoundingClientRect().bottom;
+  const countdownBottom = countdown ? countdown.getBoundingClientRect().bottom : 0;
+  const railTop = Math.ceil(mastBottom + 14);
+  const detailTop = Math.ceil(countdownBottom + 16);
+
+  root.style.setProperty('--rail-content-top', `${railTop}px`);
+  root.style.setProperty('--detail-content-top', `${detailTop}px`);
+
+  if(innerWidth<=820){
+    /* On small screens, start both sheets below whichever header element extends lower. */
+    const mobileTop = Math.ceil(Math.max(mastBottom, countdownBottom) + 14);
+    root.style.setProperty('--mobile-content-top', `${mobileTop}px`);
+  }else{
+    root.style.removeProperty('--mobile-content-top');
+  }
+}
+addEventListener('resize', syncResponsiveLayout);
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(syncResponsiveLayout);
+requestAnimationFrame(syncResponsiveLayout);
+
+/* play through the Games */
+let playTimer=null;
+$('#play').onclick = ()=>{
+  state.playing = !state.playing;
+  $('#play').innerHTML = state.playing ? '&#10073;&#10073;' : '&#9654;';
+  if(!state.playing){ clearInterval(playTimer); return; }
+  const seq = GAMES.filter(g=>visible(g) && g.s!=='X');
+  let i = Math.max(0, seq.findIndex(g=>g.id===state.id));
+  const step = ()=>{
+    select(seq[i].id);
+    i = (i+1) % seq.length;
+  };
+  step();
+  playTimer = setInterval(step, 3400);
+};
+
+/* countdown to LA 2028 */
+(function countdown(){
+  const target = new Date('2028-07-14T20:00:00-07:00');
+  const tick = ()=>{
+    const ms = target - new Date();
+    if(ms<=0){ $('#cdVal').textContent='Open'; $('#cdSub').textContent='Los Angeles 2028 is under way'; return; }
+    const d = Math.floor(ms/86400000), h = Math.floor(ms/3600000)%24, m = Math.floor(ms/60000)%60, s = Math.floor(ms/1000)%60;
+    $('#cdVal').textContent = `${d}d ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    $('#cdSub').textContent = 'until Los Angeles 2028';
+  };
+  tick(); setInterval(tick,1000);
+})();
+
+/* ---------- boot ---------- */
+const MSGS = ['Assembling the host cities','Lighting the relay arcs','Loading podiums and records'];
+let mi=0; const msgTimer = setInterval(()=>{ mi=(mi+1)%MSGS.length; const n=$('#loadMsg'); if(n) n.textContent=MSGS[mi]; }, 1100);
+function finishLoad(){
+  clearInterval(msgTimer);
+  setTimeout(()=>{ $('#loading').classList.add('done'); }, 350);
+}
+initGlobe();
+buildTimeline();
+renderResults('');
+renderRank();
+syncTimeline();
+setTimeout(()=>{ if(!state.id) select('s2024'); }, 1400);
+setTimeout(finishLoad, 6000);
+
+addEventListener('keydown', e=>{
+  if(e.key==='Escape'){ if(state.wide) $('#dWide').click(); else closeDetail(); }
+  if((e.key==='e'||e.key==='E') && state.id && e.target.tagName!=='INPUT') $('#dWide').click();
+  if(e.key==='ArrowRight' || e.key==='ArrowLeft'){
+    const seq = GAMES.filter(g=>visible(g));
+    let i = seq.findIndex(g=>g.id===state.id);
+    i = e.key==='ArrowRight' ? Math.min(seq.length-1,i+1) : Math.max(0,i-1);
+    if(seq[i]) select(seq[i].id);
+  }
+});
+</script>
+</body>
+</html>
